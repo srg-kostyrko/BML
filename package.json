@@ -1,0 +1,31 @@
+{
+  "name": "bml",
+  "version": "0.0.1",
+  "description": "Binary Markup Language - declarative way to describe binary data",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "commit": "git-cz",
+    "test": "jest"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ],
+  "devDependencies": {
+    "commitizen": "^3.0.4",
+    "cz-conventional-changelog": "2.1.0",
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-compat": "^2.6.2",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jest": "^21.26.2",
+    "jest": "^23.6.0",
+    "prettier": "^1.14.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
