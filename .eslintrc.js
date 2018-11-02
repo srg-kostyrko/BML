@@ -17,7 +17,7 @@ module.exports = {
     ],
     'no-underscore-dangle': [
       'error',
-      { allow: ['_pack_', '_parse_', '_encode_', '_decode_'] },
+      { allow: ['_pack_', '_parse_', '_encode_', '_decode_', '_size_'] },
     ],
     'class-methods-use-this': ['error', { exceptMethods: ['type'] }],
     'no-restricted-syntax': [
