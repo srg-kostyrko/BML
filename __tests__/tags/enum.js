@@ -11,7 +11,7 @@ describe('enum', () => {
   });
   testTag(testEnum`powers`, [0x01], 'one', 1);
 
-  expect(testEnum().parse(new Uint8Array([0x01]).buffer)).toBe('one');
+  expect(testEnum().parse(new Uint8Array([0x01]))).toBe('one');
   expect(testEnum().pack(8)).toEqual(new Uint8Array([0x08]).buffer);
   expect(testEnum().pack(255)).toEqual(new Uint8Array([0xff]).buffer);
   expect(testEnum().pack('eight')).toEqual(new Uint8Array([0x08]).buffer);
