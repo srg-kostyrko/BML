@@ -1,9 +1,29 @@
 {
   "name": "bml",
-  "version": "0.0.1",
+  "version": "0.5.0",
   "description": "Binary Markup Language - declarative way to describe binary data",
+  "keywords": [
+    "BML",
+    "binary",
+    "file",
+    "buffer",
+    "parse",
+    "pack"
+  ],
+  "author": {
+    "name": "Sergii Kostyrko",
+    "email": "srg.kostyrko@gmail.com"
+  },
   "main": "index.js",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/srg-kostyrko/BML.git"
+  },
+  "bugs": {
+    "url": "https://github.com/srg-kostyrko/BML/issues"
+  },
+  "homepage": "https://github.com/srg-kostyrko/BML#readme",
   "scripts": {
     "commit": "git-cz",
     "test": "jest",
