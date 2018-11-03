@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/srg-kostyrko/BML#readme",
   "scripts": {
-    "commit": "git-cz",
+    "commit": "git add . && git-cz",
     "test": "jest",
     "test:watch": "jest --watchAll"
   },

@@ -13,7 +13,7 @@ const {
   int,
   single,
   double,
-} = require('../../lib/tags/primitives');
+} = require('../../lib');
 
 describe('primitive ints', () => {
   testTag(byte(), [0xff], 255, 1);

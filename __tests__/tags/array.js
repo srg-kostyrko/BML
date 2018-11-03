@@ -1,6 +1,5 @@
 const { testTag } = require('../helpers/tags');
-const { array } = require('../../lib/tags/array');
-const { byte } = require('../../lib/tags/primitives');
+const { array, byte } = require('../../lib');
 
 describe('array', () => {
   testTag(array(byte, 0)`empty`, [], [], 0);

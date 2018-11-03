@@ -1,6 +1,5 @@
 const { testTag } = require('../helpers/tags');
-const { struct } = require('../../lib/tags/struct');
-const { byte, uint8, uint16 } = require('../../lib/tags/primitives');
+const { struct, byte, uint8, uint16 } = require('../../lib');
 
 describe('struct', () => {
   testTag(struct()`empty`, [], {}, 0);

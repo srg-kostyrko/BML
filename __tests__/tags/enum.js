@@ -1,9 +1,8 @@
 const { testTag } = require('../helpers/tags');
-const { enumeration } = require('../../lib/tags/enum');
-const { byte } = require('../../lib/tags/primitives');
+const { enums, byte } = require('../../lib');
 
-describe('enum', () => {
-  const testEnum = enumeration(byte, {
+describe('enums', () => {
+  const testEnum = enums(byte, {
     one: 1,
     two: 2,
     four: 4,
