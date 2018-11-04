@@ -8,7 +8,7 @@ describe('enums', () => {
     four: 4,
     eight: 8,
   });
-  testTag(testEnum`powers`, [0x01], 'one', 1);
+  testTag(testEnum`powers`(), [0x01], 'one', 1);
 
   expect(testEnum().parse(new Uint8Array([0x01]))).toBe('one');
   expect(testEnum().pack(8)).toEqual(new Uint8Array([0x08]).buffer);
