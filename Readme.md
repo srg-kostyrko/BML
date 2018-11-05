@@ -10,7 +10,7 @@ Instead of writing imperative code to parse a piece of data, you declaratively d
 
 ## Installing / Getting started
 
-NodeJS: Just use npm to install jParser and you are set :)
+NodeJS: Just use npm to install BML and you are set :)
 
 ```shell
 npm install bml
@@ -27,9 +27,12 @@ First describe structure of binary data
 ```javascript
 const { byte, strcut } = require('bml');
 
+// define composite type
 const rgb = struct(byte`r`, byte`g`, byte`b`);
-
+// you can use previously defined type to describe more complex ones
 const colorsType = struct(rgb`main`, rgb`secondary`);
+// you need to invoke it to get parser/packer
+const colors = colorsType();
 ```
 
 Now you can read and parse binary data
@@ -38,17 +41,15 @@ Now you can read and parse binary data
 const fs = require('fs');
 
 fs.readFile('file.bin', function(err, data) {
-  const parser = colorsType();
-  console.log(parser.parse(data));
+  console.log(colors.parse(data));
 });
 ```
 
-You can as well conver javascript objectto binary data
+You can as well convert javascript objectto binary data
 
 ```javascript
-const packer = colorsType();
 console.log(
-  packer.pack({
+  color.pack({
     main: {
       r: 211,
       g: 33,
