@@ -11,7 +11,7 @@ const {
   byte,
   short,
   int,
-  single,
+  float,
   double,
 } = require('../../lib');
 
@@ -33,9 +33,9 @@ describe('primitive ints', () => {
 });
 
 describe('primitive floats', () => {
-  testTag(single(), [0, 0, 0, 0], 0, 4);
+  testTag(float(), [0, 0, 0, 0], 0, 4);
   testTag(
-    single(),
+    float(),
     [64, 12, 204, 205, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     2.200000047683716,
     4
