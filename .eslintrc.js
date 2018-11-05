@@ -20,6 +20,7 @@ module.exports = {
       { allow: ['_pack_', '_parse_', '_encode_', '_decode_', '_size_'] },
     ],
     'class-methods-use-this': ['error', { exceptMethods: ['type'] }],
+    camelcase: 'off',
     'no-restricted-syntax': [
       'error',
       'ForInStatement',
