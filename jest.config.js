@@ -4,4 +4,6 @@
 module.exports = {
   testEnvironment: 'node',
   testPathIgnorePatterns: ['/node_modules/', '/__tests__/helpers/'],
+  coverageDirectory: './coverage/',
+  collectCoverage: true,
 };
