@@ -1,5 +1,11 @@
 const { testTag } = require('../helpers/tags');
-const { string, pascal_string, c_string, byte } = require('../../lib');
+const {
+  string,
+  pascal_string,
+  c_string,
+  greedy_string,
+  byte,
+} = require('../../lib');
 
 describe('strings', () => {
   describe('string', () => {
@@ -28,6 +34,18 @@ describe('strings', () => {
     expect(fourChars.parse(new Uint8Array([82, 73, 77, 52, 0]))).toBe('RIM4');
     expect(fourChars.pack('RIM4')).toEqual(
       new Uint8Array([82, 73, 77, 52, 0]).buffer
+    );
+  });
+
+  describe('greedy_string', () => {
+    const empty = greedy_string()();
+    expect(empty.parse(new Uint8Array([]))).toBe('');
+    expect(empty.pack('')).toEqual(new Uint8Array([]).buffer);
+
+    const fourChars = greedy_string()();
+    expect(fourChars.parse(new Uint8Array([82, 73, 77, 52]))).toBe('RIM4');
+    expect(fourChars.pack('RIM4')).toEqual(
+      new Uint8Array([82, 73, 77, 52]).buffer
     );
   });
 });
