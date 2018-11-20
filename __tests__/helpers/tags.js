@@ -1,4 +1,4 @@
-function testTag(tag, binarySample, dataSample, size) {
+function testTag(tag, binarySample, dataSample) {
   const binaryData = new Uint8Array(binarySample);
   describe(tag.name || tag.constructor.name, () => {
     test('parse', () => {
@@ -8,9 +8,6 @@ function testTag(tag, binarySample, dataSample, size) {
     test('pack', () => {
       const packed = tag.pack(dataSample);
       expect(packed).toEqual(binaryData.buffer);
-    });
-    test('size', () => {
-      expect(tag.size()).toBe(size);
     });
   });
 }

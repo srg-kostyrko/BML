@@ -9,7 +9,7 @@ describe('enums', () => {
       four: 4,
       eight: 8,
     });
-    testTag(testEnum`powers`(), [0x01], 'one', 1);
+    testTag(testEnum`powers`(), [0x01], 'one');
 
     expect(testEnum().parse(new Uint8Array([0x01]))).toBe('one');
     expect(testEnum().pack(8)).toEqual(new Uint8Array([0x08]).buffer);
@@ -19,8 +19,8 @@ describe('enums', () => {
 
   describe('from array', () => {
     const testEnum = enums(byte, ['zero', 'one', 'two']);
-    testTag(testEnum(), [0x00], 'zero', 1);
-    testTag(testEnum(), [0x01], 'one', 1);
-    testTag(testEnum(), [0x02], 'two', 1);
+    testTag(testEnum(), [0x00], 'zero');
+    testTag(testEnum(), [0x01], 'one');
+    testTag(testEnum(), [0x02], 'two');
   });
 });

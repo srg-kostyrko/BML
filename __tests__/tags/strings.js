@@ -9,8 +9,8 @@ const {
 
 describe('strings', () => {
   describe('string', () => {
-    testTag(string(0)`empty`(), [], '', 0);
-    testTag(string(4)`4 chars`(), [82, 73, 77, 52], 'RIM4', 4);
+    testTag(string(0)`empty`(), [], '');
+    testTag(string(4)`4 chars`(), [82, 73, 77, 52], 'RIM4');
   });
 
   describe('pascal_string', () => {
