@@ -15,6 +15,7 @@
     "email": "srg.kostyrko@gmail.com"
   },
   "main": "index.js",
+  "browser": "dist/bml.js",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -25,9 +26,11 @@
   },
   "homepage": "https://github.com/srg-kostyrko/BML#readme",
   "scripts": {
+    "build": "rollup -c",
     "commit": "git add . && git-cz",
     "test": "jest",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "prepublish": "yarn build"
   },
   "browserslist": [
     "last 2 versions"
@@ -42,7 +45,11 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "^21.26.2",
     "jest": "^23.6.0",
-    "prettier": "^1.14.3"
+    "prettier": "^1.14.3",
+    "rollup": "^0.67.3",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-terser": "^3.0.0"
   },
   "config": {
     "commitizen": {

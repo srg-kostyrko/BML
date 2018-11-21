@@ -20,3 +20,4 @@ __tests__
 jest.config.js
 .prettierrc.js
 .gitignore
+rollup.config.js
