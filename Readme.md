@@ -13,11 +13,11 @@ Instead of writing imperative code to parse a piece of data, you declaratively d
 NodeJS: Just use npm to install BML and you are set :)
 
 ```shell
-npm install bml
+npm install binary-markup
 ```
 
 ```shell
-yarn add bml
+yarn add binary-markup
 ```
 
 ## Example
@@ -25,7 +25,7 @@ yarn add bml
 First describe structure of binary data
 
 ```javascript
-const { byte, strcut } = require('bml');
+const { byte, strcut } = require('binary-markup');
 
 // define composite type
 const rgb = struct(byte`r`, byte`g`, byte`b`);
