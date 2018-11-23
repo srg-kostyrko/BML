@@ -1,6 +1,48 @@
 const { ctx, Context } = require('../lib');
 
 describe('context', () => {
+  describe('it should support dot notation', () => {
+    it('should get value', () => {
+      const context = new Context();
+      context.fill({
+        first: {
+          second: {
+            third: 1,
+          },
+        },
+      });
+      expect(context.get('first.second.third')).toBe(1);
+      expect(context.get('first.second.unknown')).toBeUndefined();
+      expect(context.get('first.unknown.unknown')).toBeUndefined();
+      expect(context.get('unknown.unknown.unknown')).toBeUndefined();
+    });
+
+    it('should get value from parent context', () => {
+      const parent = new Context();
+      parent.fill({
+        first: {
+          second: {
+            third: 1,
+          },
+        },
+      });
+      const context = new Context(parent);
+      expect(context.get('first.second.third')).toBe(1);
+      expect(context.get('first.second.unknown')).toBeUndefined();
+      expect(context.get('first.unknown.unknown')).toBeUndefined();
+      expect(context.get('unknown.unknown.unknown')).toBeUndefined();
+    });
+
+    it('should set value', () => {
+      const context = new Context();
+      context.set('first.second.third', 1);
+      expect(context.get('first')).toEqual({
+        second: {
+          third: 1,
+        },
+      });
+    });
+  });
   describe('context functions', () => {
     const context = new Context();
     context.fill({
@@ -12,7 +54,7 @@ describe('context', () => {
 
     it('should create function that get property from context', () => {
       expect(ctx`value`(context)).toBe(5);
-      expect(ctx`missing`(context)).toBe(null);
+      expect(ctx`missing`(context)).toBeUndefined();
     });
 
     it('should allow eq chain able to calculate from context', () => {
