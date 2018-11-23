@@ -1,5 +1,7 @@
 ![Logo of the project](https://raw.githubusercontent.com/jehna/readme-best-practices/master/sample-logo.png)
 
+[![Build Status](https://travis-ci.org/srg-kostyrko/BML.svg?branch=master)](https://travis-ci.org/srg-kostyrko/BML) [![codecov](https://codecov.io/gh/srg-kostyrko/BML/branch/master/graph/badge.svg)](https://codecov.io/gh/srg-kostyrko/BML) ![NpmLicense](https://img.shields.io/npm/l/binary-markup.svg) ![npm](https://img.shields.io/npm/v/binary-markup.svg) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
 # BML
 
 > Binary markup language
@@ -45,7 +47,7 @@ fs.readFile('file.bin', function(err, data) {
 });
 ```
 
-You can as well convert javascript objectto binary data
+You can as well convert javascript object to binary data
 
 ```javascript
 console.log(
