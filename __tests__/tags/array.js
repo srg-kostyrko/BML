@@ -27,7 +27,6 @@ describe('greedy_array', () => {
 });
 
 describe('greedy_bytes', () => {
-  const greedyBytes = greedy_bytes();
-  testTag(greedyBytes`empty`(), [], []);
-  testTag(greedyBytes`3 entries`(), [1, 2, 3], [1, 2, 3]);
+  testTag(greedy_bytes`empty`(), [], []);
+  testTag(greedy_bytes`3 entries`(), [1, 2, 3], [1, 2, 3]);
 });
