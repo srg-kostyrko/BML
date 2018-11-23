@@ -30,7 +30,8 @@
     "commit": "git add . && git-cz",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "prepublish": "yarn build"
+    "prepublish": "yarn build",
+    "lint": "eslint lib"
   },
   "browserslist": [
     "last 2 versions"
@@ -44,7 +45,9 @@
     "eslint-plugin-compat": "^2.6.2",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "^21.26.2",
+    "husky": "^1.2.0",
     "jest": "^23.6.0",
+    "lint-staged": "^8.1.0",
     "prettier": "^1.14.3",
     "rollup": "^0.67.3",
     "rollup-plugin-commonjs": "^9.2.0",
@@ -55,5 +58,16 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn test"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint"
+    ]
   }
 }
