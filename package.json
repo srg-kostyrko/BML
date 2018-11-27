@@ -31,7 +31,9 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "prepublish": "yarn build",
-    "lint": "eslint lib"
+    "lint": "eslint lib",
+    "release": "standard-version",
+    "release:beta": "standard-version -p beta"
   },
   "browserslist": [
     "last 2 versions"
@@ -52,7 +54,8 @@
     "rollup": "^0.67.3",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-terser": "^3.0.0"
+    "rollup-plugin-terser": "^3.0.0",
+    "standard-version": "^4.4.0"
   },
   "config": {
     "commitizen": {
