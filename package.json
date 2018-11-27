@@ -30,7 +30,7 @@
     "commit": "git add . && git-cz",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "prepublish": "yarn build",
+    "prepare": "yarn build",
     "lint": "eslint lib",
     "release": "standard-version",
     "release:beta": "standard-version -p beta"
