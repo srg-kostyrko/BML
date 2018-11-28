@@ -21,7 +21,16 @@ module.exports = {
     ],
     'class-methods-use-this': [
       'error',
-      { exceptMethods: ['type', 'log', '_encode_', '_decode_'] },
+      {
+        exceptMethods: [
+          'type',
+          'log',
+          '_encode_',
+          '_decode_',
+          '_pack_',
+          '_parse_',
+        ],
+      },
     ],
     camelcase: 'off',
     'no-bitwise': 'off',
