@@ -19,7 +19,10 @@ module.exports = {
       'error',
       { allow: ['_pack_', '_parse_', '_encode_', '_decode_'] },
     ],
-    'class-methods-use-this': ['error', { exceptMethods: ['type', 'log'] }],
+    'class-methods-use-this': [
+      'error',
+      { exceptMethods: ['type', 'log', '_encode_', '_decode_'] },
+    ],
     camelcase: 'off',
     'no-bitwise': 'off',
     'no-restricted-syntax': [
