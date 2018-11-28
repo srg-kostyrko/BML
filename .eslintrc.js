@@ -21,6 +21,7 @@ module.exports = {
     ],
     'class-methods-use-this': ['error', { exceptMethods: ['type', 'log'] }],
     camelcase: 'off',
+    'no-bitwise': 'off',
     'no-restricted-syntax': [
       'error',
       'ForInStatement',
