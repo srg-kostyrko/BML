@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/srg-kostyrko/BML/compare/v0.6.0...v0.7.0) (2018-12-02)
+
+
+### Features
+
+* **context:** Allow Context instance to passed on parsing/packing start ([cdace1d](https://github.com/srg-kostyrko/BML/commit/cdace1d))
+* **tags:** Add bit_mask tag ([7d985b7](https://github.com/srg-kostyrko/BML/commit/7d985b7))
+* **tags:** Add endian tag ([b13d087](https://github.com/srg-kostyrko/BML/commit/b13d087))
+* **tags:** Add flag tag ([a4e690c](https://github.com/srg-kostyrko/BML/commit/a4e690c))
+* **tags:** Add peek tag ([b0f7e15](https://github.com/srg-kostyrko/BML/commit/b0f7e15))
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/srg-kostyrko/BML/compare/v0.5.0...v0.6.0) (2018-11-27)
 

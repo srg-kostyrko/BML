@@ -1,6 +1,6 @@
 {
   "name": "binary-markup",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Binary Markup Language - declarative way to describe binary data",
   "keywords": [
     "BML",
