@@ -6,9 +6,9 @@ export default {
   cache: false,
   input: 'lib/index.js',
   output: {
-    file: 'dist/bml.js',
-    name: 'bml',
-    format: 'iife',
+    file: 'dist/binary-markup.js',
+    name: 'binary-markup',
+    format: 'umd',
   },
   plugins: [
     resolve({

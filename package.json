@@ -15,7 +15,7 @@
     "email": "srg.kostyrko@gmail.com"
   },
   "main": "index.js",
-  "browser": "dist/bml.js",
+  "browser": "dist/binary-markup.js",
   "license": "MIT",
   "repository": {
     "type": "git",
