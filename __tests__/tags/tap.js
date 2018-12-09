@@ -29,6 +29,6 @@ describe('tap', () => {
       _logger_: logger,
     });
 
-    expect(logger.debug).toBeCalledWith(`a: 5`);
+    expect(logger.debug).toBeCalledWith(`a: `, 5);
   });
 });
