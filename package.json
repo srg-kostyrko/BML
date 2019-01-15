@@ -1,6 +1,6 @@
 {
   "name": "binary-markup",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Binary Markup Language - declarative way to describe binary data",
   "keywords": [
     "BML",
@@ -33,7 +33,7 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "prepare": "yarn build",
-    "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' '__test__/**/*.ts'",
+    "lint": "tslint  -t codeFrame 'src/**/*.ts' '__test__/**/*.ts'",
     "release": "standard-version",
     "release:beta": "standard-version -p beta"
   },
