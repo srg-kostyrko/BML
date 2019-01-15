@@ -15,7 +15,7 @@ Instead of writing imperative code to parse a piece of data, you declaratively d
 NodeJS: Just use npm to install BML and you are set :)
 
 ```shell
-npm install binary-markup
+npm install binary-markup --save
 ```
 
 ```shell
@@ -27,31 +27,32 @@ yarn add binary-markup
 First describe structure of binary data
 
 ```javascript
-const { byte, strcut } = require('binary-markup');
+const { byte, struct } = require('binary-markup');
 
 // define composite type
 const rgb = struct(byte`r`, byte`g`, byte`b`);
 // you can use previously defined type to describe more complex ones
 const colorsType = struct(rgb`main`, rgb`secondary`);
-// you need to invoke it to get parser/packer
-const colors = colorsType();
 ```
 
 Now you can read and parse binary data
 
 ```javascript
 const fs = require('fs');
+const { parse } = require('binary-markup');
 
 fs.readFile('file.bin', function(err, data) {
-  console.log(colors.parse(data));
+  console.log(parse(colorsType, data));
 });
 ```
 
 You can as well convert javascript object to binary data
 
 ```javascript
+const { pack } = require('binary-markup');
+
 console.log(
-  color.pack({
+  pack(colorsType, {
     main: {
       r: 211,
       g: 33,

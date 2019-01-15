@@ -14,8 +14,9 @@
     "name": "Sergii Kostyrko",
     "email": "srg.kostyrko@gmail.com"
   },
-  "main": "index.js",
-  "browser": "dist/binary-markup.js",
+  "main": "dist/binary-markup.umd.js",
+  "module": "dist/binary-markup.es5.js",
+  "typings": "dist/types/binary-markup.d.ts",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -26,12 +27,13 @@
   },
   "homepage": "https://github.com/srg-kostyrko/BML#readme",
   "scripts": {
-    "build": "rollup -c",
+    "prebuild": "rimraf dist",
+    "build": "tsc --module commonjs && rollup -c",
     "commit": "git add . && git-cz",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "prepare": "yarn build",
-    "lint": "eslint lib",
+    "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' '__test__/**/*.ts'",
     "release": "standard-version",
     "release:beta": "standard-version -p beta"
   },
@@ -39,23 +41,27 @@
     "last 2 versions"
   ],
   "devDependencies": {
+    "@types/jest": "^23.3.12",
+    "@types/node": "^10.12.18",
     "commitizen": "^3.0.4",
     "cz-conventional-changelog": "2.1.0",
-    "eslint": "^5.8.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-config-prettier": "^3.1.0",
-    "eslint-plugin-compat": "^2.6.2",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jest": "^21.26.2",
     "husky": "^1.2.0",
     "jest": "^23.6.0",
     "lint-staged": "^8.1.0",
     "prettier": "^1.14.3",
     "rollup": "^0.67.3",
     "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^3.0.0",
-    "standard-version": "^4.4.0"
+    "rollup-plugin-typescript2": "^0.18.1",
+    "standard-version": "^4.4.0",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.12.1",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-config-prettier": "^1.17.0",
+    "typescript": "^3.2.2"
   },
   "config": {
     "commitizen": {
@@ -69,8 +75,8 @@
     }
   },
   "lint-staged": {
-    "*.js": [
-      "eslint"
+    "*.ts": [
+      "yarn lint"
     ]
   }
 }

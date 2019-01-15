@@ -14,10 +14,11 @@ yarn.lock
 
 # project files
 __tests__
+.rpt2_cache
 .travis.yml
 .editorconfig
-.eslintrc.js
 jest.config.js
 .prettierrc.js
 .gitignore
 rollup.config.js
+tslint.json
