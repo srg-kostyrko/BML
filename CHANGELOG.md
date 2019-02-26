@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.1"></a>
+## [0.8.1](https://github.com/srg-kostyrko/BML/compare/v0.7.0...v0.8.1) (2019-02-26)
+
+
+### Bug Fixes
+
+* **stream:** Fix using Buffer in node with some byteOffset ([abe5758](https://github.com/srg-kostyrko/BML/commit/abe5758))
+* **tap:** Remove context to string convertion in tap tag ([4adcd8f](https://github.com/srg-kostyrko/BML/commit/4adcd8f))
+* **typings:** Fix typings ([cc549ff](https://github.com/srg-kostyrko/BML/commit/cc549ff))
+
+
+### Code Refactoring
+
+* Typescript rewrite ([550242e](https://github.com/srg-kostyrko/BML/commit/550242e))
+* **tags:** Rename jump -> seek, seek -> skip ([0e675b8](https://github.com/srg-kostyrko/BML/commit/0e675b8))
+* Extract constants ([e68b61d](https://github.com/srg-kostyrko/BML/commit/e68b61d))
+
+
+### BREAKING CHANGES
+
+* - parse/pack tag methods moved to separate functions
+* **tags:** Tags renamed jump -> seek, seek -> skip
+* BMLStream.LE -> ENDIAN.LE
+
+
+
 <a name="0.8.0"></a>
 # [0.8.0](https://github.com/srg-kostyrko/BML/compare/v0.7.0...v0.8.0) (2019-01-15)
 
