@@ -95,16 +95,16 @@ enum Comparator {
 }
 
 interface ComparatorSide<T> {
-  (right: T): (context: Context) => boolean;
+  (right: T): (context: IContext) => boolean;
 }
 
 const comparatorFns = {
-  [Comparator.eq]: (left: any, right: any) => left === right,
-  [Comparator.neq]: (left: any, right: any) => left !== right,
-  [Comparator.lt]: (left: any, right: any) => left < right,
-  [Comparator.lte]: (left: any, right: any) => left <= right,
-  [Comparator.gt]: (left: any, right: any) => left > right,
-  [Comparator.gte]: (left: any, right: any) => left >= right,
+  [Comparator.eq]: (left: any, right: any): boolean => left === right,
+  [Comparator.neq]: (left: any, right: any): boolean => left !== right,
+  [Comparator.lt]: (left: any, right: any): boolean => left < right,
+  [Comparator.lte]: (left: any, right: any): boolean => left <= right,
+  [Comparator.gt]: (left: any, right: any): boolean => left > right,
+  [Comparator.gte]: (left: any, right: any): boolean => left >= right,
 };
 
 function createComparator(type: Comparator) {

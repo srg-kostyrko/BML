@@ -16,7 +16,7 @@
   },
   "main": "dist/binary-markup.umd.js",
   "module": "dist/binary-markup.es5.js",
-  "typings": "dist/types/binary-markup.d.ts",
+  "typings": "dist/types/index.d.ts",
   "license": "MIT",
   "repository": {
     "type": "git",
