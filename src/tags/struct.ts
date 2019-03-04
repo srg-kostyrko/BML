@@ -40,6 +40,8 @@ class Struct<T extends StructOutput> extends Tag<T> {
   }
 }
 
-export function struct(...subTags: TagOrWrapper<unknown>[]) {
-  return createTag(Struct, ...subTags);
+export function struct<T extends StructOutput>(
+  ...subTags: TagOrWrapper<unknown>[]
+) {
+  return createTag<T>(Struct, ...subTags);
 }

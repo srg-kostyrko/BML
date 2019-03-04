@@ -7,23 +7,22 @@ import {
 import { createContextGetter } from '../context';
 
 import { Tag, createTag, unwrapTag, TagOrWrapper } from './tag';
+import { pass } from './pass';
 
-class WhenElse<T> extends Tag<T | null> {
+class WhenElse<When, Else> extends Tag<When | Else> {
   predicate: ContextGetter<boolean>;
-  whenTag: Tag<T>;
-  elseTag: Tag<T> | undefined;
+  whenTag: Tag<When>;
+  elseTag: Tag<Else>;
 
   constructor(
     predicate: ContextGetterArg<boolean>,
-    whenTag: TagOrWrapper<T>,
-    elseTag?: TagOrWrapper<T>
+    whenTag: TagOrWrapper<When>,
+    elseTag: TagOrWrapper<Else>
   ) {
     super();
     this.predicate = createContextGetter(predicate);
     this.whenTag = unwrapTag(whenTag);
-    if (elseTag) {
-      this.elseTag = unwrapTag(elseTag);
-    }
+    this.elseTag = unwrapTag(elseTag);
   }
 
   parse(stream: IStream, context: IContext) {
@@ -31,27 +30,29 @@ class WhenElse<T> extends Tag<T | null> {
     if (predicateResult) {
       return this.whenTag.parse(stream, context);
     }
-    if (this.elseTag) {
-      return this.elseTag.parse(stream, context);
-    }
-    return null;
+    return this.elseTag.parse(stream, context);
   }
 
-  pack(stream: IStream, data: T, context: IContext) {
+  pack(stream: IStream, data: When | Else, context: IContext) {
     const predicateResult = this.predicate(context);
     if (predicateResult) {
-      this.whenTag.pack(stream, data, context);
+      this.whenTag.pack(stream, data as When, context);
     }
     if (this.elseTag) {
-      this.elseTag.pack(stream, data, context);
+      this.elseTag.pack(stream, data as Else, context);
     }
   }
 }
 
-export function when<T>(
+export function when<When, Else>(
   predicate: ContextGetterArg<boolean>,
-  whenTag: TagOrWrapper<T>,
-  elseTag?: TagOrWrapper<T>
+  whenTag: TagOrWrapper<When>,
+  elseTag: TagOrWrapper<Else | null> = pass
 ) {
-  return createTag<T | null>(WhenElse, predicate, whenTag, elseTag);
+  return createTag<When | Else>(
+    WhenElse as { new (...args: any[]): Tag<When | Else> },
+    predicate,
+    whenTag,
+    elseTag
+  );
 }
