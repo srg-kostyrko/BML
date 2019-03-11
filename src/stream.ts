@@ -2,8 +2,12 @@ import { IStream, DataType, StreamInput, Endian } from './contracts';
 import { typeSettings } from './types';
 import { TypeError } from './errors';
 
+const BIT_CURSOR_RESET_MARKER = 256;
+
 export class BMLStream implements IStream {
   cursor: number = 0;
+  bitBuffer: number | null = null;
+  bitCursor: number = 1;
   content: ArrayBuffer;
   view: DataView;
 
@@ -40,6 +44,7 @@ export class BMLStream implements IStream {
   }
 
   finalize() {
+    this.flushBitBuffer();
     this.content = this.content.slice(0, this.cursor);
     return this.content;
   }
@@ -49,6 +54,7 @@ export class BMLStream implements IStream {
     if (!settings) {
       throw new TypeError(`Unknown type ${type}`);
     }
+    this.resetBitBuffer();
     const position = this.cursor;
     this.cursor += settings.size;
     settings.read(this.view, position, endian === Endian.LE);
@@ -66,6 +72,32 @@ export class BMLStream implements IStream {
     return settings.write(this.view, position, value, endian === Endian.LE);
   }
 
+  readBit(): number {
+    if (this.bitBuffer === null) {
+      this.bitBuffer = this.read(DataType.uint8);
+    }
+    const value = this.bitBuffer & this.bitCursor;
+    this.bitCursor *= 2;
+    if (this.bitCursor === BIT_CURSOR_RESET_MARKER) {
+      this.bitBuffer = null;
+      this.bitCursor = 1;
+    }
+    return value ? 1 : 0;
+  }
+
+  writeBit(value: number) {
+    if (this.bitBuffer == null) {
+      this.bitBuffer = 0;
+    }
+    if (value) {
+      this.bitBuffer |= this.bitCursor;
+    }
+    this.bitCursor *= 2;
+    if (this.bitCursor === BIT_CURSOR_RESET_MARKER) {
+      this.flushBitBuffer();
+    }
+  }
+
   tell() {
     return this.cursor;
   }
@@ -76,5 +108,18 @@ export class BMLStream implements IStream {
 
   skip(offset: number) {
     this.cursor += offset;
+  }
+
+  resetBitBuffer() {
+    this.bitCursor = 1;
+    this.bitBuffer = null;
+  }
+
+  flushBitBuffer() {
+    if (this.bitBuffer != null) {
+      this.write(DataType.uint8, this.bitBuffer);
+    }
+    this.bitBuffer = null;
+    this.bitCursor = 1;
   }
 }

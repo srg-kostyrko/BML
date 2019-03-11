@@ -20,3 +20,4 @@ export * from './bitMask';
 export * from './endian';
 export * from './flag';
 export * from './peek';
+export * from './bit';

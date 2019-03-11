@@ -34,8 +34,10 @@ export interface IStream {
   finalize(): ArrayBuffer;
 
   read(type: DataType, endian?: Endian): number;
+  readBit(): number;
 
   write(type: DataType, value: number, endian?: Endian): void;
+  writeBit(value: number): void;
 
   tell(): number;
   seek(offset: number): void;
