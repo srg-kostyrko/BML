@@ -21,3 +21,4 @@ export * from './endian';
 export * from './flag';
 export * from './peek';
 export * from './bit';
+export * from './varint';
