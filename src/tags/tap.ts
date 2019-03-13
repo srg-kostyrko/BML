@@ -1,18 +1,19 @@
-import { ctxLogger, IContextFunction } from '../context';
-import { IContext, IStream } from '../contracts';
+import { ctxLogger, ContextFunction } from '../context';
+import { Context, Stream } from '../contracts';
 
-import { createTag, Tag } from './tag';
+import { createTag, Tag, TagWrapperFunction, TagCreator } from './tag';
 
 class Tap extends Tag<null> {
-  into: IContextFunction<any> | undefined;
-  constructor(into?: IContextFunction<any>) {
+  private into: ContextFunction<unknown> | undefined;
+
+  public constructor(into?: ContextFunction<unknown>) {
     super();
     if (into) {
       this.into = into;
     }
   }
 
-  tap(context: IContext) {
+  public tap(context: Context): void {
     const logger = ctxLogger(context);
     if (this.into) {
       logger.debug(
@@ -24,16 +25,18 @@ class Tap extends Tag<null> {
     }
   }
 
-  parse(stream: IStream, context: IContext) {
+  public parse(stream: Stream, context: Context): null {
     this.tap(context);
     return null;
   }
 
-  pack(stream: IStream, data: null, context: IContext) {
+  public pack(stream: Stream, data: null, context: Context): void {
     this.tap(context);
   }
 }
 
-export function tap(into?: IContextFunction<any>) {
+export function tap(
+  into?: ContextFunction<unknown>
+): TagWrapperFunction<null> & TagCreator<null> {
   return createTag(Tap, into);
 }

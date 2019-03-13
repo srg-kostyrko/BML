@@ -1,27 +1,34 @@
-import { IContext, IStream } from '../contracts';
-import { Context } from '../context';
+import { Context, Stream } from '../contracts';
+import { createContext } from '../context';
 
-import { Tag, createTag, unwrapTag, TagOrWrapper } from './tag';
+import {
+  Tag,
+  createTag,
+  unwrapTag,
+  TagOrWrapper,
+  TagCreator,
+  TagWrapperFunction,
+} from './tag';
 
 export type Predicate<T> = (
-  context: IContext,
+  context: Context,
   subData: T,
   index: number,
   data: T[]
 ) => boolean;
 
 class Repeat<T> extends Tag<T[]> {
-  subTag: Tag<T>;
-  predicate: Predicate<T>;
+  private subTag: Tag<T>;
+  private predicate: Predicate<T>;
 
-  constructor(subTag: TagOrWrapper<T>, predicate: Predicate<T>) {
+  public constructor(subTag: TagOrWrapper<T>, predicate: Predicate<T>) {
     super();
     this.subTag = unwrapTag(subTag);
     this.predicate = predicate;
   }
 
-  parse(stream: IStream, context: IContext) {
-    const listContext = new Context(context);
+  public parse(stream: Stream, context: Context): T[] {
+    const listContext = createContext(context);
     const data = [];
     let index = 0;
     while (!stream.eof) {
@@ -42,8 +49,8 @@ class Repeat<T> extends Tag<T[]> {
     return data;
   }
 
-  pack(stream: IStream, data: T[], context: IContext) {
-    const listContext = new Context(context);
+  public pack(stream: Stream, data: T[], context: Context): void {
+    const listContext = createContext(context);
     const usedData = [];
     let index = 0;
     for (const subData of data) {
@@ -59,7 +66,7 @@ class Repeat<T> extends Tag<T[]> {
 }
 
 class RepeatUntil<T> extends Repeat<T> {
-  constructor(subTag: TagOrWrapper<T>, predicate: Predicate<T>) {
+  public constructor(subTag: TagOrWrapper<T>, predicate: Predicate<T>) {
     super(subTag, (...args) => !predicate(...args));
   }
 }
@@ -68,12 +75,20 @@ class RepeatWhile<T> extends Repeat<T> {}
 export function repeatUntil<T>(
   subTag: TagOrWrapper<T>,
   predicate: Predicate<T>
-) {
-  return createTag<T[]>(RepeatUntil, subTag, predicate);
+): TagWrapperFunction<T[]> & TagCreator<T[]> {
+  return createTag<T[], [TagOrWrapper<T>, Predicate<T>]>(
+    RepeatUntil,
+    subTag,
+    predicate
+  );
 }
 export function repeatWhile<T>(
   subTag: TagOrWrapper<T>,
   predicate: Predicate<T>
-) {
-  return createTag<T[]>(RepeatWhile, subTag, predicate);
+): TagWrapperFunction<T[]> & TagCreator<T[]> {
+  return createTag<T[], [TagOrWrapper<T>, Predicate<T>]>(
+    RepeatWhile,
+    subTag,
+    predicate
+  );
 }

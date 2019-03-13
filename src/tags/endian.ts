@@ -1,34 +1,36 @@
 import { ENDIAN_KEY } from '../constants';
 import {
-  IContext,
-  IStream,
+  Context,
+  Stream,
   ContextGetterArg,
   ContextGetter,
   Endian,
 } from '../contracts';
 import { createContextGetter } from '../context';
 
-import { Tag, createTag } from './tag';
+import { Tag, createTag, TagCreator, TagWrapperFunction } from './tag';
 
 class EndianTag extends Tag<Endian> {
-  endian: ContextGetter<Endian>;
+  private endian: ContextGetter<Endian>;
 
-  constructor(endian: ContextGetterArg<Endian>) {
+  public constructor(endian: ContextGetterArg<Endian>) {
     super();
     this.endian = createContextGetter(endian);
   }
 
-  parse(stream: IStream, context: IContext) {
+  public parse(_: Stream, context: Context): Endian {
     const endian = this.endian(context);
     context.set(ENDIAN_KEY, endian);
     return endian;
   }
 
-  pack(stream: IStream, data: Endian, context: IContext) {
+  public pack(stream: Stream, _: Endian, context: Context): void {
     this.parse(stream, context);
   }
 }
 
-export function endian(endian: ContextGetterArg<Endian>) {
+export function endian(
+  endian: ContextGetterArg<Endian>
+): TagWrapperFunction<Endian> & TagCreator<Endian> {
   return createTag(EndianTag, endian);
 }

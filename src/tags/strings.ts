@@ -1,6 +1,6 @@
 import {
-  IContext,
-  IStream,
+  Context,
+  Stream,
   ContextGetter,
   ContextGetterArg,
   DataType,
@@ -9,30 +9,37 @@ import {
 import { createContextGetter } from '../context';
 import { ENCODING_KEY } from '../constants';
 
-import { Tag, createTag, unwrapTag, TagOrWrapper } from './tag';
+import {
+  Tag,
+  createTag,
+  unwrapTag,
+  TagOrWrapper,
+  TagWrapperFunction,
+  TagCreator,
+} from './tag';
 import { Adapter } from './adapter';
 
 class StringEncoder extends Adapter<number[], string> {
-  encoding: Encoding | undefined;
+  private encoding: Encoding | undefined;
 
-  constructor(subTag: TagOrWrapper<number[]>, encoding?: Encoding) {
+  public constructor(subTag: TagOrWrapper<number[]>, encoding?: Encoding) {
     super(subTag);
     this.encoding = encoding;
   }
 
-  getEncoding(context: IContext) {
+  public getEncoding(context: Context): Encoding {
     if (this.encoding) {
       return this.encoding;
     }
     return context.get<Encoding>(ENCODING_KEY) || Encoding.ascii;
   }
 
-  decode(data: number[], context: IContext) {
+  public decode(data: number[], context: Context): string {
     this.getEncoding(context); // TODO add different encoding support
     return String.fromCharCode(...data);
   }
 
-  encode(data: string, context: IContext) {
+  public encode(data: string, context: Context): number[] {
     this.getEncoding(context); // TODO add different encoding support
     return data.split('').map(char => char.charCodeAt(0));
   }
@@ -41,15 +48,15 @@ class StringEncoder extends Adapter<number[], string> {
 export function stringEncoder(
   subTag: TagOrWrapper<number[]>,
   encoding?: Encoding
-) {
+): TagWrapperFunction<string> & TagCreator<string> {
   return createTag(StringEncoder, subTag, encoding);
 }
 
 class StringReader extends Tag<number[]> {
-  length: ContextGetter<number>;
-  primitive: DataType;
+  private length: ContextGetter<number>;
+  private primitive: DataType;
 
-  constructor(
+  public constructor(
     length: ContextGetterArg<number>,
     primitive: DataType = DataType.uint8
   ) {
@@ -58,7 +65,7 @@ class StringReader extends Tag<number[]> {
     this.primitive = primitive;
   }
 
-  parse(stream: IStream, context: IContext) {
+  public parse(stream: Stream, context: Context): number[] {
     let count = this.length(context);
     const result = [];
     while (count > 0) {
@@ -68,7 +75,7 @@ class StringReader extends Tag<number[]> {
     return result;
   }
 
-  pack(stream: IStream, data: number[], context: IContext) {
+  public pack(stream: Stream, data: number[], context: Context): void {
     const count = this.length(context);
     let i = 0;
     while (i < count) {
@@ -81,15 +88,15 @@ class StringReader extends Tag<number[]> {
 export function stringReader(
   length: ContextGetterArg<number>,
   primitive: DataType = DataType.uint8
-) {
+): TagWrapperFunction<number[]> & TagCreator<number[]> {
   return createTag(StringReader, length, primitive);
 }
 
 class PascalStringReader extends Tag<number[]> {
-  lengthTag: Tag<number>;
-  primitive: DataType;
+  private lengthTag: Tag<number>;
+  private primitive: DataType;
 
-  constructor(
+  public constructor(
     lengthTag: TagOrWrapper<number>,
     primitive: DataType = DataType.uint8
   ) {
@@ -98,7 +105,7 @@ class PascalStringReader extends Tag<number[]> {
     this.primitive = primitive;
   }
 
-  parse(stream: IStream, context: IContext) {
+  public parse(stream: Stream, context: Context): number[] {
     let count = this.lengthTag.parse(stream, context);
     const result = [];
     while (count > 0) {
@@ -108,7 +115,7 @@ class PascalStringReader extends Tag<number[]> {
     return result;
   }
 
-  pack(stream: IStream, data: number[], context: IContext) {
+  public pack(stream: Stream, data: number[], context: Context): void {
     this.lengthTag.pack(stream, data.length, context);
     for (const dataPart of data) {
       stream.write(this.primitive, dataPart);
@@ -119,19 +126,19 @@ class PascalStringReader extends Tag<number[]> {
 export function pascalStringReader(
   lengthTag: TagOrWrapper<number>,
   primitive: DataType = DataType.uint8
-) {
+): TagWrapperFunction<number[]> & TagCreator<number[]> {
   return createTag(PascalStringReader, lengthTag, primitive);
 }
 
 class CStringReader extends Tag<number[]> {
-  primitive: DataType;
+  private primitive: DataType;
 
-  constructor(primitive: DataType = DataType.uint8) {
+  public constructor(primitive: DataType = DataType.uint8) {
     super();
     this.primitive = primitive;
   }
 
-  parse(stream: IStream, context: IContext) {
+  public parse(stream: Stream): number[] {
     const result = [];
     while (!stream.eof) {
       const data = stream.read(this.primitive);
@@ -143,7 +150,7 @@ class CStringReader extends Tag<number[]> {
     return result;
   }
 
-  pack(stream: IStream, data: number[], context: IContext) {
+  public pack(stream: Stream, data: number[]): void {
     for (const dataPart of data) {
       stream.write(this.primitive, dataPart);
     }
@@ -151,18 +158,21 @@ class CStringReader extends Tag<number[]> {
   }
 }
 
-export function cStringReader(primitive: DataType = DataType.uint8) {
+export function cStringReader(
+  primitive: DataType = DataType.uint8
+): TagWrapperFunction<number[]> & TagCreator<number[]> {
   return createTag(CStringReader, primitive);
 }
 
 class GreedyStringReader extends Tag<number[]> {
-  primitive: DataType;
-  constructor(primitive: DataType = DataType.uint8) {
+  private primitive: DataType;
+
+  public constructor(primitive: DataType = DataType.uint8) {
     super();
     this.primitive = primitive;
   }
 
-  parse(stream: IStream, context: IContext) {
+  public parse(stream: Stream): number[] {
     const result = [];
     while (!stream.eof) {
       const data = stream.read(this.primitive);
@@ -171,35 +181,41 @@ class GreedyStringReader extends Tag<number[]> {
     return result;
   }
 
-  pack(stream: IStream, data: number[], context: IContext) {
+  public pack(stream: Stream, data: number[]): void {
     for (const dataPart of data) {
       stream.write(this.primitive, dataPart);
     }
   }
 }
 
-export function greedyStringReader(primitive: DataType = DataType.uint8) {
+export function greedyStringReader(
+  primitive: DataType = DataType.uint8
+): TagWrapperFunction<number[]> & TagCreator<number[]> {
   return createTag(GreedyStringReader, primitive);
 }
 
 export function string(
   length: ContextGetterArg<number>,
   encoding: Encoding = Encoding.ascii
-) {
+): TagWrapperFunction<string> & TagCreator<string> {
   return stringEncoder(stringReader(length), encoding);
 }
 
 export function pascalString(
   lengthTag: TagOrWrapper<number>,
   encoding: Encoding = Encoding.ascii
-) {
+): TagWrapperFunction<string> & TagCreator<string> {
   return stringEncoder(pascalStringReader(lengthTag), encoding);
 }
 
-export function cString(encoding: Encoding = Encoding.ascii) {
+export function cString(
+  encoding: Encoding = Encoding.ascii
+): TagWrapperFunction<string> & TagCreator<string> {
   return stringEncoder(cStringReader(), encoding);
 }
 
-export function greedyString(encoding: Encoding = Encoding.ascii) {
+export function greedyString(
+  encoding: Encoding = Encoding.ascii
+): TagWrapperFunction<string> & TagCreator<string> {
   return stringEncoder(greedyStringReader(), encoding);
 }

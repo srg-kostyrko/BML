@@ -1,33 +1,30 @@
-import {
-  IContext,
-  IStream,
-  ContextGetter,
-  ContextGetterArg,
-} from '../contracts';
+import { Context, Stream, ContextGetter, ContextGetterArg } from '../contracts';
 import { createContextGetter } from '../context';
 
-import { Tag, createTag } from './tag';
+import { Tag, createTag, TagWrapperFunction, TagCreator } from './tag';
 
 // absolute move
 class Seek extends Tag<null> {
-  offset: ContextGetter<number>;
+  private offset: ContextGetter<number>;
 
-  constructor(offset: ContextGetterArg<number>) {
+  public constructor(offset: ContextGetterArg<number>) {
     super();
     this.offset = createContextGetter(offset);
   }
 
-  parse(stream: IStream, context: IContext) {
+  public parse(stream: Stream, context: Context): null {
     const offset = this.offset(context);
     stream.seek(offset);
     return null;
   }
 
-  pack(stream: IStream, data: null, context: IContext) {
+  public pack(stream: Stream, data: null, context: Context): void {
     this.parse(stream, context);
   }
 }
 
-export function seek(offset: ContextGetterArg<number>) {
+export function seek(
+  offset: ContextGetterArg<number>
+): TagWrapperFunction<null> & TagCreator<null> {
   return createTag(Seek, offset);
 }

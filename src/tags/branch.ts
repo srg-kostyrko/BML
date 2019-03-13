@@ -1,25 +1,29 @@
-import {
-  IContext,
-  IStream,
-  ContextGetterArg,
-  ContextGetter,
-} from '../contracts';
+import { Context, Stream, ContextGetterArg, ContextGetter } from '../contracts';
 import { createContextGetter } from '../context';
 
-import { Tag, createTag, unwrapTag, TagOrWrapper } from './tag';
+import {
+  Tag,
+  createTag,
+  unwrapTag,
+  TagOrWrapper,
+  TagCreator,
+  TagWrapperFunction,
+} from './tag';
+import { pass } from './pass';
 
-export type BranchCases<T> = {
-  [key: string]: TagOrWrapper<T>;
-};
+export interface BranchCases<T> {
+  [key: string]: TagOrWrapper<T | null>;
+}
 
 class Branch<T> extends Tag<T | null> {
-  selector: ContextGetter<string>;
-  cases: BranchCases<T>;
-  defaultTag: TagOrWrapper<T> | undefined;
-  constructor(
+  private selector: ContextGetter<string>;
+  private cases: BranchCases<T>;
+  private defaultTag: TagOrWrapper<T | null>;
+
+  public constructor(
     selector: ContextGetterArg<string>,
     cases: BranchCases<T>,
-    defaultTag?: TagOrWrapper<T>
+    defaultTag: TagOrWrapper<T | null>
   ) {
     super();
     this.selector = createContextGetter(selector);
@@ -27,7 +31,7 @@ class Branch<T> extends Tag<T | null> {
     this.defaultTag = defaultTag;
   }
 
-  parse(stream: IStream, context: IContext) {
+  public parse(stream: Stream, context: Context): T | null {
     const caseKey = this.selector(context);
     let useCase = this.cases[caseKey];
     if (!useCase && this.defaultTag) {
@@ -40,7 +44,7 @@ class Branch<T> extends Tag<T | null> {
     return null;
   }
 
-  pack(stream: IStream, data: T, context: IContext) {
+  public pack(stream: Stream, data: T, context: Context): void {
     const caseKey = this.selector(context);
     let useCase = this.cases[caseKey];
     if (!useCase && this.defaultTag) {
@@ -56,7 +60,10 @@ class Branch<T> extends Tag<T | null> {
 export function branch<T>(
   selector: ContextGetterArg<string>,
   cases: BranchCases<T>,
-  defaultTag?: TagOrWrapper<T>
-) {
-  return createTag<T | null>(Branch, selector, cases, defaultTag);
+  defaultTag: TagOrWrapper<T | null> = pass
+): TagWrapperFunction<T | null> & TagCreator<T | null> {
+  return createTag<
+    T | null,
+    [ContextGetterArg<string>, BranchCases<T>, TagOrWrapper<T | null>]
+  >(Branch, selector, cases, defaultTag);
 }

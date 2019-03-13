@@ -1,14 +1,14 @@
-import { IStream, IContext } from '../contracts';
+import { Stream } from '../contracts';
 
 import { Adapter } from './adapter';
 import { Tag, createTag } from './tag';
 
 class Bit extends Tag<number> {
-  parse(stream: IStream, context: IContext) {
+  public parse(stream: Stream): number {
     return stream.readBit();
   }
 
-  pack(stream: IStream, data: number, context: IContext) {
+  public pack(stream: Stream, data: number): void {
     stream.writeBit(data);
   }
 }
@@ -16,15 +16,15 @@ class Bit extends Tag<number> {
 export const bit = createTag(Bit);
 
 class BitFlag extends Adapter<number, boolean> {
-  constructor(subTag = bit) {
+  public constructor(subTag = bit) {
     super(subTag);
   }
 
-  decode(data: number, context: IContext) {
+  public decode(data: number): boolean {
     return data !== 0;
   }
 
-  encode(data: boolean, context: IContext) {
+  public encode(data: boolean): number {
     return data ? 1 : 0;
   }
 }

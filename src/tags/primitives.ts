@@ -1,4 +1,4 @@
-import { IContext, IStream, DataType, Endian } from '../contracts';
+import { Context, Stream, DataType, Endian } from '../contracts';
 import { ENDIAN_KEY } from '../constants';
 
 import { Tag, createTag } from './tag';
@@ -6,61 +6,61 @@ import { Tag, createTag } from './tag';
 abstract class Primitive extends Tag<number> {
   abstract get type(): DataType;
 
-  parse(stream: IStream, context: IContext) {
+  public parse(stream: Stream, context: Context): number {
     const endian = context.get<Endian>(ENDIAN_KEY);
     return stream.read(this.type, endian);
   }
 
-  pack(stream: IStream, data: number, context: IContext) {
+  public pack(stream: Stream, data: number, context: Context): void {
     const endian = context.get<Endian>(ENDIAN_KEY);
     return stream.write(this.type, data, endian);
   }
 }
 
 class Int8 extends Primitive {
-  get type() {
+  public get type(): DataType {
     return DataType.int8;
   }
 }
 
 class Uint8 extends Primitive {
-  get type() {
+  public get type(): DataType {
     return DataType.uint8;
   }
 }
 
 class Int16 extends Primitive {
-  get type() {
+  public get type(): DataType {
     return DataType.int16;
   }
 }
 
 class Uint16 extends Primitive {
-  get type() {
+  public get type(): DataType {
     return DataType.uint16;
   }
 }
 
 class Int32 extends Primitive {
-  get type() {
+  public get type(): DataType {
     return DataType.int32;
   }
 }
 
 class Uint32 extends Primitive {
-  get type() {
+  public get type(): DataType {
     return DataType.uint32;
   }
 }
 
 class Float32 extends Primitive {
-  get type() {
+  public get type(): DataType {
     return DataType.float32;
   }
 }
 
 class Float64 extends Primitive {
-  get type() {
+  public get type(): DataType {
     return DataType.float64;
   }
 }

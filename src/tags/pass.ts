@@ -1,14 +1,12 @@
-import { IContext, IStream } from '../contracts';
-
 import { Tag, createTag } from './tag';
 
 class Pass extends Tag<null> {
-  parse(stream: IStream, context: IContext) {
+  public parse(): null {
     // noop
     return null;
   }
 
-  pack(stream: IStream, data: null, context: IContext) {
+  public pack(): void {
     // noop
   }
 }

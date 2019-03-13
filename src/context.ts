@@ -1,26 +1,25 @@
 import {
-  IContext,
+  Context as IContext,
   ContextGetterArg,
   ContextGetter,
-  ILogger,
+  Logger as ILogger,
 } from './contracts';
 import { LOGGER_KEY } from './constants';
 import { Logger } from './logger';
 
-export class Context implements IContext {
-  parent: IContext | undefined;
-  data: Map<string, any>;
+class ContextImpl implements IContext {
+  private parent: IContext | undefined;
+  private data: Map<string, unknown> = new Map();
 
-  constructor(parent?: IContext) {
+  public constructor(parent?: IContext) {
     this.parent = parent;
-    this.data = new Map();
     // for root context
     if (!parent) {
       this.set(LOGGER_KEY, new Logger());
     }
   }
 
-  get<T>(key: string): T {
+  public get<T>(key: string): T {
     const [topKey, ...path] = key.split('.');
     let value;
     let valueFound = false;
@@ -31,26 +30,27 @@ export class Context implements IContext {
     if (!valueFound && this.parent) {
       value = this.parent.get(topKey);
     }
-    if (!path.length) return value;
+    if (!path.length) return value as T;
 
     let index = 0;
     while (value != null && index < path.length) {
-      value = value[path[index]];
+      value = (value as { [key: string]: unknown })[path[index]];
       index += 1;
     }
 
-    return value;
+    return value as T;
   }
 
-  set(key: string, value: any) {
+  public set(key: string, value: unknown): void {
     const [topKey, ...path] = key.split('.');
     if (path.length) {
-      let object = this.data.get(topKey) || {};
+      let object: { [key: string]: unknown } =
+        (this.data.get(topKey) as { [key: string]: unknown }) || {};
       const topObject = object;
       let index = 0;
       while (index < path.length - 1) {
         object[path[index]] = object[path[index]] || {};
-        object = object[path[index]];
+        object = object[path[index]] as { [key: string]: unknown };
         index += 1;
       }
       object[path[index]] = value;
@@ -60,15 +60,15 @@ export class Context implements IContext {
     }
   }
 
-  fill(data: { [key: string]: any }) {
+  public fill(data: { [key: string]: unknown }): void {
     for (const [key, value] of Object.entries(data)) {
       this.data.set(key, value);
     }
   }
 
-  toJSON(): { [key: string]: any } {
+  public toJSON(): { [key: string]: unknown } {
     const parent = this.parent ? this.parent.toJSON() : {};
-    const json: { [key: string]: any } = {};
+    const json: { [key: string]: unknown } = {};
     this.data.forEach((value, key) => {
       if (key === LOGGER_KEY) return;
       json[key] = value;
@@ -81,7 +81,20 @@ export class Context implements IContext {
   }
 }
 
-function fromContext<T>(property: string, context: IContext) {
+export function createContext(parent?: IContext): IContext {
+  return new ContextImpl(parent);
+}
+
+export function createContextGetter<T>(
+  input: ContextGetterArg<T>
+): ContextGetter<T> {
+  if (typeof input === 'function') {
+    return input as ContextGetter<T>;
+  }
+  return () => input;
+}
+
+function fromContext<T>(property: string, context: IContext): T {
   return context.get<T>(property);
 }
 
@@ -99,16 +112,18 @@ interface ComparatorSide<T> {
 }
 
 const comparatorFns = {
-  [Comparator.eq]: (left: any, right: any): boolean => left === right,
-  [Comparator.neq]: (left: any, right: any): boolean => left !== right,
-  [Comparator.lt]: (left: any, right: any): boolean => left < right,
-  [Comparator.lte]: (left: any, right: any): boolean => left <= right,
-  [Comparator.gt]: (left: any, right: any): boolean => left > right,
-  [Comparator.gte]: (left: any, right: any): boolean => left >= right,
+  [Comparator.eq]: <T>(left: T, right: T): boolean => left === right,
+  [Comparator.neq]: <T>(left: T, right: T): boolean => left !== right,
+  [Comparator.lt]: <T>(left: T, right: T): boolean => left < right,
+  [Comparator.lte]: <T>(left: T, right: T): boolean => left <= right,
+  [Comparator.gt]: <T>(left: T, right: T): boolean => left > right,
+  [Comparator.gte]: <T>(left: T, right: T): boolean => left >= right,
 };
 
-function createComparator(type: Comparator) {
-  return function compare<T>(left: T, right: T) {
+function createComparator<T>(
+  type: Comparator
+): (left: T, right: T) => (context: IContext) => boolean {
+  return function compare(left: T, right: T) {
     return function compareFn(context: IContext) {
       const leftFn = createContextGetter<T>(left);
       const rightFn = createContextGetter<T>(right);
@@ -124,7 +139,7 @@ const lte = createComparator(Comparator.lte);
 const gt = createComparator(Comparator.gt);
 const gte = createComparator(Comparator.gte);
 
-export interface IContextFunction<T> {
+export interface ContextFunction<T> {
   (context: IContext): T;
   property: string;
   eq: ComparatorSide<T>;
@@ -135,8 +150,8 @@ export interface IContextFunction<T> {
   gte: ComparatorSide<T>;
 }
 
-export function ctx<T>([property]: TemplateStringsArray): IContextFunction<T> {
-  const fn = fromContext.bind(null, property) as IContextFunction<T>;
+export function ctx<T>([property]: TemplateStringsArray): ContextFunction<T> {
+  const fn = fromContext.bind(null, property) as ContextFunction<T>;
   fn.property = property;
   fn.eq = (eq.bind(null, fn) as unknown) as ComparatorSide<T>;
   fn.neq = (neq.bind(null, fn) as unknown) as ComparatorSide<T>;
@@ -147,15 +162,6 @@ export function ctx<T>([property]: TemplateStringsArray): IContextFunction<T> {
   return fn;
 }
 
-export function ctxLogger(context: IContext) {
+export function ctxLogger(context: IContext): ILogger {
   return context.get<ILogger>(LOGGER_KEY);
-}
-
-export function createContextGetter<T>(
-  input: ContextGetterArg<T>
-): ContextGetter<T> {
-  if (typeof input === 'function') {
-    return input as ContextGetter<T>;
-  }
-  return (context: IContext) => input;
 }

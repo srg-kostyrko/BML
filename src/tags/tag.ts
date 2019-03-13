@@ -1,17 +1,17 @@
-import { IContext, IStream } from '../contracts';
+import { Context, Stream } from '../contracts';
 
 export abstract class Tag<T> {
   public name: string | null = null;
 
-  constructor(...args: any[]) {
+  public constructor() {
     // noop
   }
 
-  abstract parse(stream: IStream, context: IContext): T;
+  abstract parse(stream: Stream, context: Context): T;
 
-  abstract pack(stream: IStream, data: T, context: IContext): void;
+  abstract pack(stream: Stream, data: T, context: Context): void;
 
-  named(name: string) {
+  public named(name: string): this {
     this.name = name;
     return this;
   }
@@ -25,9 +25,9 @@ export interface TagWrapperFunction<T> {
   (input?: string | TemplateStringsArray): TagCreator<T>;
 }
 
-export function createTag<T>(
-  tagClass: { new (...args: any[]): Tag<T> },
-  ...args: any[]
+export function createTag<T, TagArgs extends unknown[]>(
+  tagClass: { new (...args: TagArgs): Tag<T> },
+  ...args: TagArgs
 ): TagWrapperFunction<T> & TagCreator<T> {
   const tagFn: TagWrapperFunction<T> & TagCreator<T> = Object.assign(
     (input?: string | TemplateStringsArray) => {

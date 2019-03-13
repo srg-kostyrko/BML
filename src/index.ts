@@ -1,13 +1,15 @@
 import { BMLStream } from './stream';
-import { Context } from './context';
+import { createContext } from './context';
 import { TagOrWrapper, unwrapTag } from './tags/tag';
-import { StreamInput } from './contracts';
+import { StreamInput, Context } from './contracts';
 
-function prepareContext(contextData: Object) {
-  let context = new Context();
+function prepareContext(
+  contextData: object | { toJSON: () => object }
+): Context {
+  let context = createContext();
   if (contextData) {
-    if (contextData instanceof Context) {
-      context = contextData;
+    if ('toJSON' in contextData) {
+      context.fill(contextData.toJSON());
     } else {
       context.fill(contextData);
     }
@@ -18,7 +20,7 @@ function prepareContext(contextData: Object) {
 export function parse<T>(
   rootTag: TagOrWrapper<T>,
   data: StreamInput,
-  contextData: Object = {}
+  contextData: object = {}
 ): T {
   const stream = new BMLStream(data);
   const context = prepareContext(contextData);
@@ -29,8 +31,8 @@ export function parse<T>(
 export function pack<T>(
   rootTag: TagOrWrapper<T>,
   data: T,
-  contextData: Object = {}
-) {
+  contextData: object = {}
+): ArrayBuffer {
   const stream = new BMLStream();
   const context = prepareContext(contextData);
   const tag = unwrapTag(rootTag);

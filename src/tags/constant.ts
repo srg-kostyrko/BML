@@ -1,31 +1,38 @@
 import { ConstantError } from '../errors';
-import { IContext, IStream } from '../contracts';
+import { Context, Stream } from '../contracts';
 
-import { Tag, createTag, unwrapTag, TagOrWrapper } from './tag';
+import {
+  Tag,
+  createTag,
+  unwrapTag,
+  TagOrWrapper,
+  TagCreator,
+  TagWrapperFunction,
+} from './tag';
 
 class Constant<T> extends Tag<T> {
-  subTag: Tag<T>;
-  value: T;
+  private subTag: Tag<T>;
+  private value: T;
 
-  constructor(subTag: TagOrWrapper<T>, value: T) {
+  public constructor(subTag: TagOrWrapper<T>, value: T) {
     super();
     this.subTag = unwrapTag(subTag);
     this.value = value;
   }
 
-  checkValue(value: T) {
+  private checkValue(value: T): boolean {
     if (Array.isArray(this.value)) {
       if (!Array.isArray(value)) return false;
       if (value.length !== this.value.length) return false;
       return value.every(
-        (el, index) => el === ((this.value as unknown) as any[])[index]
+        (el, index) => el === ((this.value as unknown) as T[])[index]
       );
     }
 
     return value === this.value;
   }
 
-  parse(stream: IStream, context: IContext) {
+  public parse(stream: Stream, context: Context): T {
     const value = this.subTag.parse(stream, context);
     if (!this.checkValue(value)) {
       throw new ConstantError(`expected ${this.value} but got ${value}`);
@@ -33,11 +40,14 @@ class Constant<T> extends Tag<T> {
     return value;
   }
 
-  pack(stream: IStream, data: T, context: IContext) {
+  public pack(stream: Stream, _: T, context: Context): void {
     this.subTag.pack(stream, this.value, context);
   }
 }
 
-export function constant<T>(subTag: TagOrWrapper<T>, value: T) {
-  return createTag<T>(Constant, subTag, value);
+export function constant<T>(
+  subTag: TagOrWrapper<T>,
+  value: T
+): TagWrapperFunction<T> & TagCreator<T> {
+  return createTag<T, [TagOrWrapper<T>, T]>(Constant, subTag, value);
 }

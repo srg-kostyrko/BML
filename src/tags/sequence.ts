@@ -1,18 +1,25 @@
-import { Context } from '../context';
-import { IContext, IStream } from '../contracts';
+import { createContext } from '../context';
+import { Context as IContext, Stream } from '../contracts';
 
-import { Tag, createTag, TagOrWrapper, unwrapTag } from './tag';
+import {
+  Tag,
+  createTag,
+  TagOrWrapper,
+  unwrapTag,
+  TagWrapperFunction,
+  TagCreator,
+} from './tag';
 
 class Sequence<T> extends Tag<T[]> {
-  subTags: Tag<T>[];
+  private subTags: Tag<T>[];
 
-  constructor(...subTags: TagOrWrapper<T>[]) {
+  public constructor(...subTags: TagOrWrapper<T>[]) {
     super();
     this.subTags = subTags.map(unwrapTag);
   }
 
-  parse(stream: IStream, context: IContext) {
-    const sequenceContext = new Context(context);
+  public parse(stream: Stream, context: IContext): T[] {
+    const sequenceContext = createContext(context);
     const data = [];
     for (const tag of this.subTags) {
       const subData = tag.parse(stream, sequenceContext);
@@ -24,8 +31,8 @@ class Sequence<T> extends Tag<T[]> {
     return data;
   }
 
-  pack(stream: IStream, data: T[], context: IContext) {
-    const sequenceContext = new Context(context);
+  public pack(stream: Stream, data: T[], context: IContext): void {
+    const sequenceContext = createContext(context);
     for (const [index, tag] of this.subTags.entries()) {
       const subData = data[index];
       if (tag.name) {
@@ -36,6 +43,8 @@ class Sequence<T> extends Tag<T[]> {
   }
 }
 
-export function sequence<T>(...subTags: TagOrWrapper<T>[]) {
-  return createTag<T[]>(Sequence, ...subTags);
+export function sequence<T>(
+  ...subTags: TagOrWrapper<T>[]
+): TagWrapperFunction<T[]> & TagCreator<T[]> {
+  return createTag<T[], TagOrWrapper<T>[]>(Sequence, ...subTags);
 }

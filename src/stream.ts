@@ -1,17 +1,17 @@
-import { IStream, DataType, StreamInput, Endian } from './contracts';
+import { Stream, DataType, StreamInput, Endian } from './contracts';
 import { typeSettings } from './types';
 import { TypeError } from './errors';
 
 const BIT_CURSOR_RESET_MARKER = 256;
 
-export class BMLStream implements IStream {
-  cursor: number = 0;
-  bitBuffer: number | null = null;
-  bitCursor: number = 1;
-  content: ArrayBuffer;
-  view: DataView;
+export class BMLStream implements Stream {
+  private cursor: number = 0;
+  private bitBuffer: number | null = null;
+  private bitCursor: number = 1;
+  private content: ArrayBuffer;
+  private view: DataView;
 
-  constructor(fromBuffer?: StreamInput) {
+  public constructor(fromBuffer?: StreamInput) {
     if (fromBuffer) {
       let buffer = fromBuffer;
       if (ArrayBuffer.isView(fromBuffer)) {
@@ -30,11 +30,11 @@ export class BMLStream implements IStream {
     this.view = new DataView(this.content);
   }
 
-  get eof() {
+  public get eof(): boolean {
     return this.cursor >= this.content.byteLength;
   }
 
-  ensureSize(size: number) {
+  private ensureSize(size: number): void {
     if (this.content.byteLength >= size) return;
     const newLength = this.content.byteLength * 2;
     const buffer = new ArrayBuffer(newLength);
@@ -43,13 +43,13 @@ export class BMLStream implements IStream {
     this.view = new DataView(this.content);
   }
 
-  finalize() {
+  public finalize(): ArrayBuffer {
     this.flushBitBuffer();
     this.content = this.content.slice(0, this.cursor);
     return this.content;
   }
 
-  read(type: DataType, endian: Endian = Endian.BE): number {
+  public read(type: DataType, endian: Endian = Endian.BE): number {
     const settings = typeSettings[type];
     if (!settings) {
       throw new TypeError(`Unknown type ${type}`);
@@ -61,7 +61,11 @@ export class BMLStream implements IStream {
     return settings.read(this.view, position, endian === Endian.LE);
   }
 
-  write(type: DataType, value: number, endian: Endian = Endian.BE) {
+  public write(
+    type: DataType,
+    value: number,
+    endian: Endian = Endian.BE
+  ): void {
     const settings = typeSettings[type];
     if (!settings) {
       throw new TypeError(`Unknown type ${type}`);
@@ -69,10 +73,10 @@ export class BMLStream implements IStream {
     this.ensureSize(this.cursor + settings.size);
     const position = this.cursor;
     this.cursor += settings.size;
-    return settings.write(this.view, position, value, endian === Endian.LE);
+    settings.write(this.view, position, value, endian === Endian.LE);
   }
 
-  readBit(): number {
+  public readBit(): number {
     if (this.bitBuffer === null) {
       this.bitBuffer = this.read(DataType.uint8);
     }
@@ -85,7 +89,7 @@ export class BMLStream implements IStream {
     return value ? 1 : 0;
   }
 
-  writeBit(value: number) {
+  public writeBit(value: number): void {
     if (this.bitBuffer == null) {
       this.bitBuffer = 0;
     }
@@ -98,24 +102,24 @@ export class BMLStream implements IStream {
     }
   }
 
-  tell() {
+  public tell(): number {
     return this.cursor;
   }
 
-  seek(offset: number) {
+  public seek(offset: number): void {
     this.cursor = offset;
   }
 
-  skip(offset: number) {
+  public skip(offset: number): void {
     this.cursor += offset;
   }
 
-  resetBitBuffer() {
+  private resetBitBuffer(): void {
     this.bitCursor = 1;
     this.bitBuffer = null;
   }
 
-  flushBitBuffer() {
+  private flushBitBuffer(): void {
     if (this.bitBuffer != null) {
       this.write(DataType.uint8, this.bitBuffer);
     }

@@ -3,8 +3,8 @@ import { parse, pack, TagOrWrapper } from '../../src';
 export function testTag<T>(
   tag: TagOrWrapper<T>,
   binarySample: number[],
-  dataSample: any
-) {
+  dataSample: unknown
+): void {
   const binaryData = new Uint8Array(binarySample);
   describe(tag.name || tag.constructor.name, () => {
     test('parse', () => {

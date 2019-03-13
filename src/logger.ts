@@ -1,23 +1,23 @@
-import { ILogger, LogLevel } from './contracts';
+import { Logger as ILogger, LogLevel } from './contracts';
 
 export class Logger implements ILogger {
-  error(...messages: any[]) {
+  public error(...messages: unknown[]): void {
     this.log(LogLevel.error, ...messages);
   }
 
-  warn(...messages: any[]) {
+  public warn(...messages: unknown[]): void {
     this.log(LogLevel.warn, ...messages);
   }
 
-  info(...messages: any[]) {
+  public info(...messages: unknown[]): void {
     this.log(LogLevel.info, ...messages);
   }
 
-  debug(...messages: any[]) {
+  public debug(...messages: unknown[]): void {
     this.log(LogLevel.debug, ...messages);
   }
 
-  log(level: LogLevel, ...messages: any[]) {
+  public log(level: LogLevel, ...messages: unknown[]): void {
     switch (level) {
       case LogLevel.error:
         console.error(...messages);

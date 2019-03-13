@@ -1,9 +1,9 @@
-import { ctx, Context } from '../src';
+import { ctx, createContext } from '../src';
 
 describe('context', () => {
   describe('it should support dot notation', () => {
     it('should get value', () => {
-      const context = new Context();
+      const context = createContext();
       context.fill({
         first: {
           second: {
@@ -18,7 +18,7 @@ describe('context', () => {
     });
 
     it('should get value from parent context', () => {
-      const parent = new Context();
+      const parent = createContext();
       parent.fill({
         first: {
           second: {
@@ -26,7 +26,7 @@ describe('context', () => {
           },
         },
       });
-      const context = new Context(parent);
+      const context = createContext(parent);
       expect(context.get('first.second.third')).toBe(1);
       expect(context.get('first.second.unknown')).toBeUndefined();
       expect(context.get('first.unknown.unknown')).toBeUndefined();
@@ -34,7 +34,7 @@ describe('context', () => {
     });
 
     it('should set value', () => {
-      const context = new Context();
+      const context = createContext();
       context.set('first.second.third', 1);
       expect(context.get('first')).toEqual({
         second: {
@@ -44,7 +44,7 @@ describe('context', () => {
     });
   });
   describe('context functions', () => {
-    const context = new Context();
+    const context = createContext();
     context.fill({
       min: 1,
       value: 5,

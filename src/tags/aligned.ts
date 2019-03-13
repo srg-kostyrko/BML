@@ -1,24 +1,26 @@
-import {
-  IContext,
-  IStream,
-  ContextGetter,
-  ContextGetterArg,
-} from '../contracts';
+import { Context, Stream, ContextGetter, ContextGetterArg } from '../contracts';
 import { createContextGetter } from '../context';
 
-import { Tag, unwrapTag, TagOrWrapper, createTag } from './tag';
+import {
+  Tag,
+  unwrapTag,
+  TagOrWrapper,
+  createTag,
+  TagCreator,
+  TagWrapperFunction,
+} from './tag';
 
 class Aligned<T> extends Tag<T> {
-  subTag: Tag<T>;
-  size: ContextGetter<number>;
+  private subTag: Tag<T>;
+  private size: ContextGetter<number>;
 
-  constructor(subTag: TagOrWrapper<T>, size: ContextGetterArg<number>) {
+  public constructor(subTag: TagOrWrapper<T>, size: ContextGetterArg<number>) {
     super();
     this.subTag = unwrapTag(subTag);
     this.size = createContextGetter(size);
   }
 
-  parse(stream: IStream, context: IContext) {
+  public parse(stream: Stream, context: Context): T {
     const startPosition = stream.tell();
     const value = this.subTag.parse(stream, context);
     const endPosition = stream.tell();
@@ -28,7 +30,7 @@ class Aligned<T> extends Tag<T> {
     return value;
   }
 
-  pack(stream: IStream, data: T, context: IContext) {
+  public pack(stream: Stream, data: T, context: Context): void {
     const startPosition = stream.tell();
     this.subTag.pack(stream, data, context);
     const endPosition = stream.tell();
@@ -41,6 +43,10 @@ class Aligned<T> extends Tag<T> {
 export function aligned<T>(
   subTag: TagOrWrapper<T>,
   size: ContextGetterArg<number>
-) {
-  return createTag<T>(Aligned, subTag, size);
+): TagWrapperFunction<T> & TagCreator<T> {
+  return createTag<T, [TagOrWrapper<T>, ContextGetterArg<number>]>(
+    Aligned,
+    subTag,
+    size
+  );
 }

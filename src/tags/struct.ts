@@ -1,22 +1,29 @@
-import { IContext, IStream } from '../contracts';
-import { Context } from '../context';
+import { Context, Stream } from '../contracts';
+import { createContext } from '../context';
 
-import { Tag, createTag, unwrapTag, TagOrWrapper } from './tag';
+import {
+  Tag,
+  createTag,
+  unwrapTag,
+  TagOrWrapper,
+  TagWrapperFunction,
+  TagCreator,
+} from './tag';
 
-export type StructOutput = {
+export interface StructOutput {
   [key: string]: unknown;
-};
+}
 
 class Struct<T extends StructOutput> extends Tag<T> {
-  subTags: Tag<unknown>[];
+  private subTags: Tag<unknown>[];
 
-  constructor(...subTags: TagOrWrapper<unknown>[]) {
+  public constructor(...subTags: TagOrWrapper<unknown>[]) {
     super();
     this.subTags = subTags.map(unwrapTag);
   }
 
-  parse(stream: IStream, context: IContext): T {
-    const structContext = new Context(context);
+  public parse(stream: Stream, context: Context): T {
+    const structContext = createContext(context);
     const data = ({} as unknown) as T;
     for (const tag of this.subTags) {
       const subData = tag.parse(stream, structContext);
@@ -28,8 +35,8 @@ class Struct<T extends StructOutput> extends Tag<T> {
     return data;
   }
 
-  pack(stream: IStream, data: T, context: IContext) {
-    const structContext = new Context(context);
+  public pack(stream: Stream, data: T, context: Context): void {
+    const structContext = createContext(context);
     for (const tag of this.subTags) {
       if (tag.name) {
         const subData = data[tag.name];
@@ -42,6 +49,6 @@ class Struct<T extends StructOutput> extends Tag<T> {
 
 export function struct<T extends StructOutput>(
   ...subTags: TagOrWrapper<unknown>[]
-) {
-  return createTag<T>(Struct, ...subTags);
+): TagWrapperFunction<T> & TagCreator<T> {
+  return createTag<T, TagOrWrapper<unknown>[]>(Struct, ...subTags);
 }

@@ -1,24 +1,32 @@
-import { IContext, IStream } from '../contracts';
+import { Context, Stream } from '../contracts';
 
-import { Tag, createTag, unwrapTag, TagOrWrapper } from './tag';
+import {
+  Tag,
+  createTag,
+  unwrapTag,
+  TagOrWrapper,
+  TagCreator,
+  TagWrapperFunction,
+} from './tag';
 
-export type BitMap = {
+export interface BitMap {
   [key: string]: number;
-};
-export type BitMaskResults = {
+}
+export interface BitMaskResults {
   [key: string]: boolean;
-};
+}
 
 class BitMask extends Tag<BitMaskResults> {
-  subTag: Tag<number>;
-  bitMap: BitMap;
-  constructor(subTag: TagOrWrapper<number>, bitMap: BitMap) {
+  private subTag: Tag<number>;
+  private bitMap: BitMap;
+
+  public constructor(subTag: TagOrWrapper<number>, bitMap: BitMap) {
     super();
     this.subTag = unwrapTag(subTag);
     this.bitMap = bitMap;
   }
 
-  parse(stream: IStream, context: IContext) {
+  public parse(stream: Stream, context: Context): BitMaskResults {
     const parsedValue = this.subTag.parse(stream, context);
     const result: BitMaskResults = {};
     for (const key of Object.keys(this.bitMap)) {
@@ -27,7 +35,7 @@ class BitMask extends Tag<BitMaskResults> {
     return result;
   }
 
-  pack(stream: IStream, data: BitMaskResults, context: IContext) {
+  public pack(stream: Stream, data: BitMaskResults, context: Context): void {
     let value = 0;
     for (const key of Object.keys(this.bitMap)) {
       if (data[key]) {
@@ -38,6 +46,9 @@ class BitMask extends Tag<BitMaskResults> {
   }
 }
 
-export function bitMask(subTag: TagOrWrapper<number>, bitMap: BitMap) {
+export function bitMask(
+  subTag: TagOrWrapper<number>,
+  bitMap: BitMap
+): TagWrapperFunction<BitMaskResults> & TagCreator<BitMaskResults> {
   return createTag(BitMask, subTag, bitMap);
 }

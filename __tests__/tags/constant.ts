@@ -29,7 +29,7 @@ describe('constant', () => {
       parse(wrongMatch, new Uint8Array([1, 2, 3, 4, 5]))
     ).toThrowError(ConstantError);
 
-    const wrongType = constant<any>(string(4), [82, 73, 77, 52]);
+    const wrongType = constant<unknown>(string(4), [82, 73, 77, 52]);
     expect(() =>
       parse(wrongType, new Uint8Array([82, 73, 77, 52]))
     ).toThrowError(ConstantError);

@@ -1,27 +1,36 @@
-import { IContext, IStream } from '../contracts';
+import { Context, Stream } from '../contracts';
 
-import { Tag, createTag, unwrapTag, TagOrWrapper } from './tag';
+import {
+  Tag,
+  createTag,
+  unwrapTag,
+  TagOrWrapper,
+  TagWrapperFunction,
+  TagCreator,
+} from './tag';
 
 class Peek<T> extends Tag<T> {
-  subTag: Tag<T>;
+  private subTag: Tag<T>;
 
-  constructor(subTag: TagOrWrapper<T>) {
+  public constructor(subTag: TagOrWrapper<T>) {
     super();
     this.subTag = unwrapTag(subTag);
   }
 
-  parse(stream: IStream, context: IContext) {
+  public parse(stream: Stream, context: Context): T {
     const position = stream.tell();
     const value = this.subTag.parse(stream, context);
     stream.seek(position);
     return value;
   }
 
-  pack(stream: IStream, data: T, context: IContext) {
+  public pack(): void {
     // noop
   }
 }
 
-export function peek<T>(subTag: TagOrWrapper<T>) {
-  return createTag(Peek, subTag);
+export function peek<T>(
+  subTag: TagOrWrapper<T>
+): TagWrapperFunction<T> & TagCreator<T> {
+  return createTag<T, [TagOrWrapper<T>]>(Peek, subTag);
 }

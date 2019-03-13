@@ -1,20 +1,16 @@
-import { IContext } from '../contracts';
-
 import { Adapter } from './adapter';
-import { createTag, TagOrWrapper } from './tag';
+import { createTag, TagOrWrapper, TagCreator, TagWrapperFunction } from './tag';
 
 // Translates unicode label names to tag values, and vice versa.
 class Enums extends Adapter<number, string> {
-  encodeMap: Map<string, number>;
-  decodeMap: Map<number, string>;
+  private encodeMap: Map<string, number> = new Map();
+  private decodeMap: Map<number, string> = new Map();
 
-  constructor(
+  public constructor(
     tag: TagOrWrapper<number>,
     map: string[] | { [key: string]: number }
   ) {
     super(tag);
-    this.encodeMap = new Map();
-    this.decodeMap = new Map();
     if (Array.isArray(map)) {
       for (const [value, key] of map.entries()) {
         this.encodeMap.set(key, value);
@@ -28,11 +24,11 @@ class Enums extends Adapter<number, string> {
     }
   }
 
-  decode(data: number, context: IContext) {
+  public decode(data: number): string {
     return this.decodeMap.get(data) || '';
   }
 
-  encode(data: string, context: IContext) {
+  public encode(data: string): number {
     return this.encodeMap.get(data) || 0;
   }
 }
@@ -40,6 +36,6 @@ class Enums extends Adapter<number, string> {
 export function enums(
   subTag: TagOrWrapper<number>,
   map: string[] | { [key: string]: number }
-) {
+): TagWrapperFunction<string> & TagCreator<string> {
   return createTag(Enums, subTag, map);
 }

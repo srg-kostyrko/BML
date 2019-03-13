@@ -1,32 +1,34 @@
-import { Context, createContextGetter } from '../context';
-import {
-  IContext,
-  IStream,
-  ContextGetter,
-  ContextGetterArg,
-} from '../contracts';
+import { createContextGetter, createContext } from '../context';
+import { Context, Stream, ContextGetter, ContextGetterArg } from '../contracts';
 
-import { Tag, createTag, unwrapTag, TagOrWrapper } from './tag';
+import {
+  Tag,
+  createTag,
+  unwrapTag,
+  TagOrWrapper,
+  TagWrapperFunction,
+  TagCreator,
+} from './tag';
 import { byte } from './primitives';
 
-function range(size: number) {
+function range(size: number): number[] {
   return Array.from({ length: size }, (_, i) => i);
 }
 
 // Homogenous array of elements, similar to C# generic T[].
 class ArrayTag<T> extends Tag<T[]> {
-  tag: Tag<T>;
-  size: ContextGetter<number>;
+  private tag: Tag<T>;
+  private size: ContextGetter<number>;
 
-  constructor(tag: TagOrWrapper<T>, size: ContextGetterArg<number>) {
+  public constructor(tag: TagOrWrapper<T>, size: ContextGetterArg<number>) {
     super();
     this.tag = unwrapTag(tag);
     this.size = createContextGetter(size);
   }
 
-  parse(stream: IStream, context: IContext) {
+  public parse(stream: Stream, context: Context): T[] {
     const size = this.size(context);
-    const listContext = new Context(context);
+    const listContext = createContext(context);
     const data = [];
     for (const index of range(size)) {
       listContext.set('index', index);
@@ -36,9 +38,9 @@ class ArrayTag<T> extends Tag<T[]> {
     return data;
   }
 
-  pack(stream: IStream, data: T[], context: IContext) {
+  public pack(stream: Stream, data: T[], context: Context): void {
     const size = this.size(context);
-    const listContext = new Context(context);
+    const listContext = createContext(context);
     for (const index of range(size)) {
       listContext.set('index', index);
       const subData = data[index];
@@ -48,15 +50,15 @@ class ArrayTag<T> extends Tag<T[]> {
 }
 
 class GreedyArray<T> extends Tag<T[]> {
-  tag: Tag<T>;
+  private tag: Tag<T>;
 
-  constructor(tag: TagOrWrapper<T>) {
+  public constructor(tag: TagOrWrapper<T>) {
     super();
     this.tag = unwrapTag(tag);
   }
 
-  parse(stream: IStream, context: IContext) {
-    const listContext = new Context(context);
+  public parse(stream: Stream, context: Context): T[] {
+    const listContext = createContext(context);
     const data = [];
     let index = 0;
     while (!stream.eof) {
@@ -72,8 +74,8 @@ class GreedyArray<T> extends Tag<T[]> {
     return data;
   }
 
-  pack(stream: IStream, data: T[], context: IContext) {
-    const listContext = new Context(context);
+  public pack(stream: Stream, data: T[], context: Context): void {
+    const listContext = createContext(context);
     let index = 0;
     for (const subData of data) {
       listContext.set('index', index);
@@ -86,14 +88,22 @@ class GreedyArray<T> extends Tag<T[]> {
 export function array<T>(
   subTag: TagOrWrapper<T>,
   size: ContextGetterArg<number>
-) {
-  return createTag<T[]>(ArrayTag, subTag, size);
+): TagWrapperFunction<T[]> & TagCreator<T[]> {
+  return createTag<T[], [TagOrWrapper<T>, ContextGetterArg<number>]>(
+    ArrayTag,
+    subTag,
+    size
+  );
 }
-export function greedyArray<T>(subTag: TagOrWrapper<T>) {
-  return createTag<T[]>(GreedyArray, subTag);
+export function greedyArray<T>(
+  subTag: TagOrWrapper<T>
+): TagWrapperFunction<T[]> & TagCreator<T[]> {
+  return createTag<T[], [TagOrWrapper<T>]>(GreedyArray, subTag);
 }
 
-export function bytes(count: ContextGetterArg<number>) {
+export function bytes(
+  count: ContextGetterArg<number>
+): TagWrapperFunction<number[]> & TagCreator<number[]> {
   return array<number>(byte, count);
 }
 

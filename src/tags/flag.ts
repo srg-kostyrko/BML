@@ -1,19 +1,17 @@
-import { IContext } from '../contracts';
-
 import { Adapter } from './adapter';
 import { createTag } from './tag';
 import { byte } from './primitives';
 
 class Flag extends Adapter<number, boolean> {
-  constructor(subTag = byte) {
+  public constructor(subTag = byte) {
     super(subTag);
   }
 
-  decode(data: number, context: IContext) {
+  public decode(data: number): boolean {
     return data !== 0;
   }
 
-  encode(data: boolean, context: IContext) {
+  public encode(data: boolean): number {
     return data ? 1 : 0;
   }
 }

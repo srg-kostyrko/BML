@@ -1,20 +1,22 @@
-import {
-  IContext,
-  IStream,
-  ContextGetter,
-  ContextGetterArg,
-} from '../contracts';
+import { Context, Stream, ContextGetter, ContextGetterArg } from '../contracts';
 import { createContextGetter } from '../context';
 
-import { Tag, createTag, unwrapTag, TagOrWrapper } from './tag';
+import {
+  Tag,
+  createTag,
+  unwrapTag,
+  TagOrWrapper,
+  TagWrapperFunction,
+  TagCreator,
+} from './tag';
 import { pass } from './pass';
 
 class WhenElse<When, Else> extends Tag<When | Else> {
-  predicate: ContextGetter<boolean>;
-  whenTag: Tag<When>;
-  elseTag: Tag<Else>;
+  private predicate: ContextGetter<boolean>;
+  private whenTag: Tag<When>;
+  private elseTag: Tag<Else>;
 
-  constructor(
+  public constructor(
     predicate: ContextGetterArg<boolean>,
     whenTag: TagOrWrapper<When>,
     elseTag: TagOrWrapper<Else>
@@ -25,7 +27,7 @@ class WhenElse<When, Else> extends Tag<When | Else> {
     this.elseTag = unwrapTag(elseTag);
   }
 
-  parse(stream: IStream, context: IContext) {
+  public parse(stream: Stream, context: Context): When | Else {
     const predicateResult = this.predicate(context);
     if (predicateResult) {
       return this.whenTag.parse(stream, context);
@@ -33,7 +35,7 @@ class WhenElse<When, Else> extends Tag<When | Else> {
     return this.elseTag.parse(stream, context);
   }
 
-  pack(stream: IStream, data: When | Else, context: IContext) {
+  public pack(stream: Stream, data: When | Else, context: Context): void {
     const predicateResult = this.predicate(context);
     if (predicateResult) {
       this.whenTag.pack(stream, data as When, context);
@@ -48,9 +50,20 @@ export function when<When, Else>(
   predicate: ContextGetterArg<boolean>,
   whenTag: TagOrWrapper<When>,
   elseTag: TagOrWrapper<Else | null> = pass
-) {
-  return createTag<When | Else>(
-    WhenElse as { new (...args: any[]): Tag<When | Else> },
+): TagWrapperFunction<When | Else> & TagCreator<When | Else> {
+  return createTag<
+    When | Else,
+    [ContextGetterArg<boolean>, TagOrWrapper<When>, TagOrWrapper<Else | null>]
+  >(
+    WhenElse as {
+      new (
+        ...args: [
+          ContextGetterArg<boolean>,
+          TagOrWrapper<When>,
+          TagOrWrapper<Else | null>
+        ]
+      ): Tag<When | Else>;
+    },
     predicate,
     whenTag,
     elseTag

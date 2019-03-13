@@ -1,22 +1,17 @@
-import {
-  IContext,
-  IStream,
-  ContextGetter,
-  ContextGetterArg,
-} from '../contracts';
+import { Context, Stream, ContextGetter, ContextGetterArg } from '../contracts';
 import { createContextGetter } from '../context';
 
-import { Tag, createTag } from './tag';
+import { Tag, createTag, TagCreator, TagWrapperFunction } from './tag';
 
 class Computed<T> extends Tag<T> {
-  compute: ContextGetter<T>;
+  private compute: ContextGetter<T>;
 
-  constructor(compute: ContextGetterArg<T>) {
+  public constructor(compute: ContextGetterArg<T>) {
     super();
     this.compute = createContextGetter(compute);
   }
 
-  parse(stream: IStream, context: IContext) {
+  public parse(_: Stream, context: Context): T {
     const computedValue = this.compute(context);
     if (this.name) {
       context.set(this.name, computedValue);
@@ -24,11 +19,13 @@ class Computed<T> extends Tag<T> {
     return computedValue;
   }
 
-  pack(stream: IStream, data: T, context: IContext) {
+  public pack(stream: Stream, _: T, context: Context): void {
     this.parse(stream, context);
   }
 }
 
-export function computed<T>(compute: ContextGetterArg<T>) {
-  return createTag<T>(Computed, compute);
+export function computed<T>(
+  compute: ContextGetterArg<T>
+): TagWrapperFunction<T> & TagCreator<T> {
+  return createTag<T, [ContextGetterArg<T>]>(Computed, compute);
 }
