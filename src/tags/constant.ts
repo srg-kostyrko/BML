@@ -1,14 +1,7 @@
 import { ConstantError } from '../errors';
 import { Context, Stream } from '../contracts';
 
-import {
-  Tag,
-  createTag,
-  unwrapTag,
-  TagOrWrapper,
-  TagCreator,
-  TagWrapperFunction,
-} from './tag';
+import { Tag, createTag, unwrapTag, TagOrWrapper, TagProducer } from './tag';
 
 class Constant<T> extends Tag<T> {
   private subTag: Tag<T>;
@@ -45,9 +38,6 @@ class Constant<T> extends Tag<T> {
   }
 }
 
-export function constant<T>(
-  subTag: TagOrWrapper<T>,
-  value: T
-): TagWrapperFunction<T> & TagCreator<T> {
+export function constant<T>(subTag: TagOrWrapper<T>, value: T): TagProducer<T> {
   return createTag<T, [TagOrWrapper<T>, T]>(Constant, subTag, value);
 }

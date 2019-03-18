@@ -9,14 +9,7 @@ import {
 import { createContextGetter } from '../context';
 import { ENCODING_KEY } from '../constants';
 
-import {
-  Tag,
-  createTag,
-  unwrapTag,
-  TagOrWrapper,
-  TagWrapperFunction,
-  TagCreator,
-} from './tag';
+import { Tag, createTag, unwrapTag, TagOrWrapper, TagProducer } from './tag';
 import { Adapter } from './adapter';
 
 class StringEncoder extends Adapter<number[], string> {
@@ -48,7 +41,7 @@ class StringEncoder extends Adapter<number[], string> {
 export function stringEncoder(
   subTag: TagOrWrapper<number[]>,
   encoding?: Encoding
-): TagWrapperFunction<string> & TagCreator<string> {
+): TagProducer<string> {
   return createTag(StringEncoder, subTag, encoding);
 }
 
@@ -88,7 +81,7 @@ class StringReader extends Tag<number[]> {
 export function stringReader(
   length: ContextGetterArg<number>,
   primitive: DataType = DataType.uint8
-): TagWrapperFunction<number[]> & TagCreator<number[]> {
+): TagProducer<number[]> {
   return createTag(StringReader, length, primitive);
 }
 
@@ -126,7 +119,7 @@ class PascalStringReader extends Tag<number[]> {
 export function pascalStringReader(
   lengthTag: TagOrWrapper<number>,
   primitive: DataType = DataType.uint8
-): TagWrapperFunction<number[]> & TagCreator<number[]> {
+): TagProducer<number[]> {
   return createTag(PascalStringReader, lengthTag, primitive);
 }
 
@@ -160,7 +153,7 @@ class CStringReader extends Tag<number[]> {
 
 export function cStringReader(
   primitive: DataType = DataType.uint8
-): TagWrapperFunction<number[]> & TagCreator<number[]> {
+): TagProducer<number[]> {
   return createTag(CStringReader, primitive);
 }
 
@@ -190,32 +183,32 @@ class GreedyStringReader extends Tag<number[]> {
 
 export function greedyStringReader(
   primitive: DataType = DataType.uint8
-): TagWrapperFunction<number[]> & TagCreator<number[]> {
+): TagProducer<number[]> {
   return createTag(GreedyStringReader, primitive);
 }
 
 export function string(
   length: ContextGetterArg<number>,
   encoding: Encoding = Encoding.ascii
-): TagWrapperFunction<string> & TagCreator<string> {
+): TagProducer<string> {
   return stringEncoder(stringReader(length), encoding);
 }
 
 export function pascalString(
   lengthTag: TagOrWrapper<number>,
   encoding: Encoding = Encoding.ascii
-): TagWrapperFunction<string> & TagCreator<string> {
+): TagProducer<string> {
   return stringEncoder(pascalStringReader(lengthTag), encoding);
 }
 
 export function cString(
   encoding: Encoding = Encoding.ascii
-): TagWrapperFunction<string> & TagCreator<string> {
+): TagProducer<string> {
   return stringEncoder(cStringReader(), encoding);
 }
 
 export function greedyString(
   encoding: Encoding = Encoding.ascii
-): TagWrapperFunction<string> & TagCreator<string> {
+): TagProducer<string> {
   return stringEncoder(greedyStringReader(), encoding);
 }

@@ -1,5 +1,5 @@
 import { Adapter } from './adapter';
-import { createTag, TagOrWrapper, TagCreator, TagWrapperFunction } from './tag';
+import { createTag, TagOrWrapper, TagProducer } from './tag';
 
 // Translates unicode label names to tag values, and vice versa.
 class Enums extends Adapter<number, string> {
@@ -36,6 +36,6 @@ class Enums extends Adapter<number, string> {
 export function enums(
   subTag: TagOrWrapper<number>,
   map: string[] | { [key: string]: number }
-): TagWrapperFunction<string> & TagCreator<string> {
+): TagProducer<string> {
   return createTag(Enums, subTag, map);
 }

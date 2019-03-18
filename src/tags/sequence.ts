@@ -1,14 +1,7 @@
 import { createContext } from '../context';
 import { Context as IContext, Stream } from '../contracts';
 
-import {
-  Tag,
-  createTag,
-  TagOrWrapper,
-  unwrapTag,
-  TagWrapperFunction,
-  TagCreator,
-} from './tag';
+import { Tag, createTag, TagOrWrapper, unwrapTag, TagProducer } from './tag';
 
 class Sequence<T> extends Tag<T[]> {
   private subTags: Tag<T>[];
@@ -43,8 +36,6 @@ class Sequence<T> extends Tag<T[]> {
   }
 }
 
-export function sequence<T>(
-  ...subTags: TagOrWrapper<T>[]
-): TagWrapperFunction<T[]> & TagCreator<T[]> {
+export function sequence<T>(...subTags: TagOrWrapper<T>[]): TagProducer<T[]> {
   return createTag<T[], TagOrWrapper<T>[]>(Sequence, ...subTags);
 }

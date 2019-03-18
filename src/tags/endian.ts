@@ -8,7 +8,7 @@ import {
 } from '../contracts';
 import { createContextGetter } from '../context';
 
-import { Tag, createTag, TagCreator, TagWrapperFunction } from './tag';
+import { Tag, createTag, TagProducer } from './tag';
 
 class EndianTag extends Tag<Endian> {
   private endian: ContextGetter<Endian>;
@@ -29,8 +29,6 @@ class EndianTag extends Tag<Endian> {
   }
 }
 
-export function endian(
-  endian: ContextGetterArg<Endian>
-): TagWrapperFunction<Endian> & TagCreator<Endian> {
+export function endian(endian: ContextGetterArg<Endian>): TagProducer<Endian> {
   return createTag(EndianTag, endian);
 }

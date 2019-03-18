@@ -1,7 +1,7 @@
 import { Context, Stream, ContextGetter, ContextGetterArg } from '../contracts';
 import { createContextGetter } from '../context';
 
-import { Tag, createTag, TagCreator, TagWrapperFunction } from './tag';
+import { Tag, createTag, TagProducer } from './tag';
 
 // relative move
 class Skip extends Tag<null> {
@@ -23,8 +23,6 @@ class Skip extends Tag<null> {
   }
 }
 
-export function skip(
-  offset: ContextGetterArg<number>
-): TagWrapperFunction<null> & TagCreator<null> {
+export function skip(offset: ContextGetterArg<number>): TagProducer<null> {
   return createTag(Skip, offset);
 }

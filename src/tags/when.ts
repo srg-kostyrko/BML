@@ -1,14 +1,7 @@
 import { Context, Stream, ContextGetter, ContextGetterArg } from '../contracts';
 import { createContextGetter } from '../context';
 
-import {
-  Tag,
-  createTag,
-  unwrapTag,
-  TagOrWrapper,
-  TagWrapperFunction,
-  TagCreator,
-} from './tag';
+import { Tag, createTag, unwrapTag, TagOrWrapper, TagProducer } from './tag';
 import { pass } from './pass';
 
 class WhenElse<When, Else> extends Tag<When | Else> {
@@ -50,7 +43,7 @@ export function when<When, Else>(
   predicate: ContextGetterArg<boolean>,
   whenTag: TagOrWrapper<When>,
   elseTag: TagOrWrapper<Else | null> = pass
-): TagWrapperFunction<When | Else> & TagCreator<When | Else> {
+): TagProducer<When | Else> {
   return createTag<
     When | Else,
     [ContextGetterArg<boolean>, TagOrWrapper<When>, TagOrWrapper<Else | null>]

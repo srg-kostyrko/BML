@@ -1,7 +1,7 @@
 import { Context, Stream, ContextGetter, ContextGetterArg } from '../contracts';
 import { createContextGetter } from '../context';
 
-import { Tag, createTag, TagWrapperFunction, TagCreator } from './tag';
+import { Tag, createTag, TagProducer } from './tag';
 
 // absolute move
 class Seek extends Tag<null> {
@@ -23,8 +23,6 @@ class Seek extends Tag<null> {
   }
 }
 
-export function seek(
-  offset: ContextGetterArg<number>
-): TagWrapperFunction<null> & TagCreator<null> {
+export function seek(offset: ContextGetterArg<number>): TagProducer<null> {
   return createTag(Seek, offset);
 }

@@ -1,14 +1,7 @@
 import { createContextGetter, createContext } from '../context';
 import { Context, Stream, ContextGetter, ContextGetterArg } from '../contracts';
 
-import {
-  Tag,
-  createTag,
-  unwrapTag,
-  TagOrWrapper,
-  TagWrapperFunction,
-  TagCreator,
-} from './tag';
+import { Tag, createTag, unwrapTag, TagOrWrapper, TagProducer } from './tag';
 import { byte } from './primitives';
 
 function range(size: number): number[] {
@@ -88,22 +81,18 @@ class GreedyArray<T> extends Tag<T[]> {
 export function array<T>(
   subTag: TagOrWrapper<T>,
   size: ContextGetterArg<number>
-): TagWrapperFunction<T[]> & TagCreator<T[]> {
+): TagProducer<T[]> {
   return createTag<T[], [TagOrWrapper<T>, ContextGetterArg<number>]>(
     ArrayTag,
     subTag,
     size
   );
 }
-export function greedyArray<T>(
-  subTag: TagOrWrapper<T>
-): TagWrapperFunction<T[]> & TagCreator<T[]> {
+export function greedyArray<T>(subTag: TagOrWrapper<T>): TagProducer<T[]> {
   return createTag<T[], [TagOrWrapper<T>]>(GreedyArray, subTag);
 }
 
-export function bytes(
-  count: ContextGetterArg<number>
-): TagWrapperFunction<number[]> & TagCreator<number[]> {
+export function bytes(count: ContextGetterArg<number>): TagProducer<number[]> {
   return array<number>(byte, count);
 }
 

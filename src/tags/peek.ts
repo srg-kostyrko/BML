@@ -1,13 +1,6 @@
 import { Context, Stream } from '../contracts';
 
-import {
-  Tag,
-  createTag,
-  unwrapTag,
-  TagOrWrapper,
-  TagWrapperFunction,
-  TagCreator,
-} from './tag';
+import { Tag, createTag, unwrapTag, TagOrWrapper, TagProducer } from './tag';
 
 class Peek<T> extends Tag<T> {
   private subTag: Tag<T>;
@@ -29,8 +22,6 @@ class Peek<T> extends Tag<T> {
   }
 }
 
-export function peek<T>(
-  subTag: TagOrWrapper<T>
-): TagWrapperFunction<T> & TagCreator<T> {
+export function peek<T>(subTag: TagOrWrapper<T>): TagProducer<T> {
   return createTag<T, [TagOrWrapper<T>]>(Peek, subTag);
 }

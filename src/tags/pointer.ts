@@ -1,14 +1,7 @@
 import { Context, Stream, ContextGetterArg, ContextGetter } from '../contracts';
 import { createContextGetter } from '../context';
 
-import {
-  Tag,
-  createTag,
-  unwrapTag,
-  TagOrWrapper,
-  TagCreator,
-  TagWrapperFunction,
-} from './tag';
+import { Tag, createTag, unwrapTag, TagOrWrapper, TagProducer } from './tag';
 
 class Pointer<T> extends Tag<T> {
   private offset: ContextGetter<number>;
@@ -44,7 +37,7 @@ class Pointer<T> extends Tag<T> {
 export function pointer<T>(
   offset: ContextGetterArg<number>,
   subTag: TagOrWrapper<T>
-): TagWrapperFunction<T> & TagCreator<T> {
+): TagProducer<T> {
   return createTag<T, [ContextGetterArg<number>, TagOrWrapper<T>]>(
     Pointer,
     offset,

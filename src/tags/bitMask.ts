@@ -1,13 +1,6 @@
 import { Context, Stream } from '../contracts';
 
-import {
-  Tag,
-  createTag,
-  unwrapTag,
-  TagOrWrapper,
-  TagCreator,
-  TagWrapperFunction,
-} from './tag';
+import { Tag, createTag, unwrapTag, TagOrWrapper, TagProducer } from './tag';
 
 export interface BitMap {
   [key: string]: number;
@@ -49,6 +42,6 @@ class BitMask extends Tag<BitMaskResults> {
 export function bitMask(
   subTag: TagOrWrapper<number>,
   bitMap: BitMap
-): TagWrapperFunction<BitMaskResults> & TagCreator<BitMaskResults> {
+): TagProducer<BitMaskResults> {
   return createTag(BitMask, subTag, bitMap);
 }

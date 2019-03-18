@@ -1,14 +1,7 @@
 import { Context, Stream, ContextGetter, ContextGetterArg } from '../contracts';
 import { createContextGetter } from '../context';
 
-import {
-  Tag,
-  unwrapTag,
-  TagOrWrapper,
-  createTag,
-  TagCreator,
-  TagWrapperFunction,
-} from './tag';
+import { Tag, unwrapTag, TagOrWrapper, createTag, TagProducer } from './tag';
 
 class Aligned<T> extends Tag<T> {
   private subTag: Tag<T>;
@@ -43,7 +36,7 @@ class Aligned<T> extends Tag<T> {
 export function aligned<T>(
   subTag: TagOrWrapper<T>,
   size: ContextGetterArg<number>
-): TagWrapperFunction<T> & TagCreator<T> {
+): TagProducer<T> {
   return createTag<T, [TagOrWrapper<T>, ContextGetterArg<number>]>(
     Aligned,
     subTag,

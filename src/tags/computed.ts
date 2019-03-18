@@ -1,7 +1,7 @@
 import { Context, Stream, ContextGetter, ContextGetterArg } from '../contracts';
 import { createContextGetter } from '../context';
 
-import { Tag, createTag, TagCreator, TagWrapperFunction } from './tag';
+import { Tag, createTag, TagProducer } from './tag';
 
 class Computed<T> extends Tag<T> {
   private compute: ContextGetter<T>;
@@ -24,8 +24,6 @@ class Computed<T> extends Tag<T> {
   }
 }
 
-export function computed<T>(
-  compute: ContextGetterArg<T>
-): TagWrapperFunction<T> & TagCreator<T> {
+export function computed<T>(compute: ContextGetterArg<T>): TagProducer<T> {
   return createTag<T, [ContextGetterArg<T>]>(Computed, compute);
 }

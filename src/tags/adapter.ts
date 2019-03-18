@@ -1,13 +1,6 @@
 import { Context, Stream } from '../contracts';
 
-import {
-  Tag,
-  unwrapTag,
-  TagOrWrapper,
-  createTag,
-  TagWrapperFunction,
-  TagCreator,
-} from './tag';
+import { Tag, unwrapTag, TagOrWrapper, createTag, TagProducer } from './tag';
 
 export abstract class Adapter<From, To> extends Tag<To> {
   private tag: Tag<From>;
@@ -36,7 +29,7 @@ export function createAdapter<From, To>(
   tag: TagOrWrapper<From>,
   decode: (data: From, context: Context) => To,
   encode: (data: To, context: Context) => From
-): TagWrapperFunction<To> & TagCreator<To> {
+): TagProducer<To> {
   const AdapterClass = class extends Adapter<From, To> {
     public constructor() {
       super(tag);

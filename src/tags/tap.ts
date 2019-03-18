@@ -1,7 +1,7 @@
 import { ctxLogger, ContextFunction } from '../context';
 import { Context, Stream } from '../contracts';
 
-import { createTag, Tag, TagWrapperFunction, TagCreator } from './tag';
+import { createTag, Tag, TagProducer } from './tag';
 
 class Tap extends Tag<null> {
   private into: ContextFunction<unknown> | undefined;
@@ -35,8 +35,6 @@ class Tap extends Tag<null> {
   }
 }
 
-export function tap(
-  into?: ContextFunction<unknown>
-): TagWrapperFunction<null> & TagCreator<null> {
+export function tap(into?: ContextFunction<unknown>): TagProducer<null> {
   return createTag(Tap, into);
 }

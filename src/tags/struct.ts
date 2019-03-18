@@ -1,14 +1,7 @@
 import { Context, Stream } from '../contracts';
 import { createContext } from '../context';
 
-import {
-  Tag,
-  createTag,
-  unwrapTag,
-  TagOrWrapper,
-  TagWrapperFunction,
-  TagCreator,
-} from './tag';
+import { Tag, createTag, unwrapTag, TagOrWrapper, TagProducer } from './tag';
 
 export interface StructOutput {
   [key: string]: unknown;
@@ -49,6 +42,6 @@ class Struct<T extends StructOutput> extends Tag<T> {
 
 export function struct<T extends StructOutput>(
   ...subTags: TagOrWrapper<unknown>[]
-): TagWrapperFunction<T> & TagCreator<T> {
+): TagProducer<T> {
   return createTag<T, TagOrWrapper<unknown>[]>(Struct, ...subTags);
 }

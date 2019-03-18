@@ -1,14 +1,7 @@
 import { Context, Stream } from '../contracts';
 import { createContext } from '../context';
 
-import {
-  Tag,
-  createTag,
-  unwrapTag,
-  TagOrWrapper,
-  TagCreator,
-  TagWrapperFunction,
-} from './tag';
+import { Tag, createTag, unwrapTag, TagOrWrapper, TagProducer } from './tag';
 
 export type Predicate<T> = (
   context: Context,
@@ -75,7 +68,7 @@ class RepeatWhile<T> extends Repeat<T> {}
 export function repeatUntil<T>(
   subTag: TagOrWrapper<T>,
   predicate: Predicate<T>
-): TagWrapperFunction<T[]> & TagCreator<T[]> {
+): TagProducer<T[]> {
   return createTag<T[], [TagOrWrapper<T>, Predicate<T>]>(
     RepeatUntil,
     subTag,
@@ -85,7 +78,7 @@ export function repeatUntil<T>(
 export function repeatWhile<T>(
   subTag: TagOrWrapper<T>,
   predicate: Predicate<T>
-): TagWrapperFunction<T[]> & TagCreator<T[]> {
+): TagProducer<T[]> {
   return createTag<T[], [TagOrWrapper<T>, Predicate<T>]>(
     RepeatWhile,
     subTag,
