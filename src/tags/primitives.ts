@@ -2,6 +2,7 @@ import { Context, Stream, DataType, Endian } from '../contracts';
 import { ENDIAN_KEY } from '../constants';
 
 import { Tag, createTag } from './tag';
+import { createAdapter } from './adapter';
 
 abstract class Primitive extends Tag<number> {
   abstract get type(): DataType;
@@ -84,3 +85,55 @@ export const short = createTag(Short);
 export const int = createTag(Int);
 export const float = createTag(Float);
 export const double = createTag(Double);
+
+class UInt24 extends Tag<number> {
+  public parse(stream: Stream, context: Context): number {
+    const endian = context.get<Endian>(ENDIAN_KEY);
+    const byte1 = stream.read(DataType.uint8);
+    const byte2 = stream.read(DataType.uint8);
+    const byte3 = stream.read(DataType.uint8);
+
+    let value;
+    if (endian === Endian.LE) {
+      value = byte3 << 16;
+      value |= byte2 << 8;
+      value |= byte1;
+    } else {
+      value = byte1 << 16;
+      value |= byte2 << 8;
+      value |= byte3;
+    }
+
+    return value;
+  }
+
+  public pack(stream: Stream, data: number, context: Context): void {
+    const endian = context.get<Endian>(ENDIAN_KEY);
+    const byte1 = (data & 0xff0000) >>> 16;
+    const byte2 = (data & 0x00ff00) >>> 8;
+    const byte3 = data & 0x0000ff;
+
+    if (endian === Endian.LE) {
+      stream.write(DataType.uint8, byte3);
+      stream.write(DataType.uint8, byte2);
+      stream.write(DataType.uint8, byte1);
+    } else {
+      stream.write(DataType.uint8, byte1);
+      stream.write(DataType.uint8, byte2);
+      stream.write(DataType.uint8, byte3);
+    }
+  }
+}
+
+export const uint24 = createTag(UInt24);
+
+export const int24 = createAdapter(
+  uint24,
+  (data: number): number => {
+    const isNegative = data & 0x800000;
+    return isNegative ? (0xffffff - data + 1) * -1 : data;
+  },
+  (data: number): number => {
+    return data >= 0 ? data : 0xffffff + data + 1;
+  }
+);

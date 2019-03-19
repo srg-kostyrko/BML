@@ -70,6 +70,7 @@ export class BMLStream implements Stream {
     if (!settings) {
       throw new TypeError(`Unknown type ${type}`);
     }
+    this.flushBitBuffer();
     this.ensureSize(this.cursor + settings.size);
     const position = this.cursor;
     this.cursor += settings.size;
@@ -121,9 +122,10 @@ export class BMLStream implements Stream {
 
   private flushBitBuffer(): void {
     if (this.bitBuffer != null) {
-      this.write(DataType.uint8, this.bitBuffer);
+      const bitBuffer = this.bitBuffer;
+      this.bitBuffer = null;
+      this.write(DataType.uint8, bitBuffer);
     }
-    this.bitBuffer = null;
     this.bitCursor = 1;
   }
 }

@@ -13,7 +13,7 @@ export function testTag<T>(
     });
     test('pack', () => {
       const packed = pack(tag, dataSample);
-      expect(packed).toEqual(binaryData.buffer);
+      expect(new Uint8Array(packed)).toEqual(binaryData);
     });
   });
 }

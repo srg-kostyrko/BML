@@ -35,6 +35,8 @@ class Struct<T extends StructOutput> extends Tag<T> {
         const subData = data[tag.name];
         structContext.set(tag.name, subData);
         tag.pack(stream, subData, structContext);
+      } else {
+        tag.pack(stream, null, structContext);
       }
     }
   }

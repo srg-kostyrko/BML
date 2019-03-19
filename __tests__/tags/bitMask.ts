@@ -38,7 +38,7 @@ describe('bit_mask', () => {
     four: true,
     eight: true,
   });
-  testTag(testBitMask`none`, [16], {
+  testTag(testBitMask`none`, [0], {
     one: false,
     two: false,
     four: false,
