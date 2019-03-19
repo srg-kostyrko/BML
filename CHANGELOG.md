@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.3"></a>
+## [0.8.3](https://github.com/srg-kostyrko/BML/compare/v0.8.2...v0.8.3) (2019-03-19)
+
+
+### Features
+
+* **adapter:** Add createAdapter function ([e1eed09](https://github.com/srg-kostyrko/BML/commit/e1eed09))
+* **tag:** Add varint tag ([4faaf5d](https://github.com/srg-kostyrko/BML/commit/4faaf5d))
+* **tags:** Add (u)int24 ([cce2b5e](https://github.com/srg-kostyrko/BML/commit/cce2b5e))
+* **tags:** Add bit and bitFlag tags ([7f4e3d3](https://github.com/srg-kostyrko/BML/commit/7f4e3d3))
+
+
+
 <a name="0.8.2"></a>
 ## [0.8.2](https://github.com/srg-kostyrko/BML/compare/v0.8.1...v0.8.2) (2019-03-04)
 
