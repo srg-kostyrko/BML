@@ -1,6 +1,11 @@
 import { testTag } from '../helpers/tags';
 import { enums, byte, parse, pack } from '../../src';
 
+enum MapEnum {
+  First,
+  Second,
+}
+
 describe('enums', () => {
   describe('from object', () => {
     const testEnum = enums(byte, {
@@ -20,5 +25,15 @@ describe('enums', () => {
     testTag(testEnum, [0x00], 'zero');
     testTag(testEnum, [0x01], 'one');
     testTag(testEnum, [0x02], 'two');
+  });
+
+  describe('from map', () => {
+    const testEnum = enums(
+      byte,
+      new Map([[MapEnum.First, 1], [MapEnum.Second, 2]])
+    );
+
+    testTag(testEnum, [1], MapEnum.First);
+    testTag(testEnum, [2], MapEnum.Second);
   });
 });
