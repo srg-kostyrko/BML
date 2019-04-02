@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.4"></a>
+## [0.8.4](https://github.com/srg-kostyrko/BML/compare/v0.8.3...v0.8.4) (2019-04-02)
+
+
+### Features
+
+* **tags:** Add Map as input to enums (for TS enums support) ([1e938db](https://github.com/srg-kostyrko/BML/commit/1e938db))
+
+
+
 <a name="0.8.3"></a>
 ## [0.8.3](https://github.com/srg-kostyrko/BML/compare/v0.8.2...v0.8.3) (2019-03-19)
 
