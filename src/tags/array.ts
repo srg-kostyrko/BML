@@ -5,7 +5,7 @@ import { Tag, createTag, unwrapTag, TagOrWrapper, TagProducer } from './tag';
 import { byte } from './primitives';
 
 function range(size: number): number[] {
-  return Array.from({ length: size }, (_, i) => i);
+  return Array.from({ length: size }, (_, i): number => i);
 }
 
 // Homogenous array of elements, similar to C# generic T[].

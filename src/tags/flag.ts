@@ -3,6 +3,6 @@ import { byte } from './primitives';
 
 export const flag = createAdapter(
   byte,
-  (data: number) => data !== 0,
-  (data: boolean) => (data ? 1 : 0)
+  (data: number): boolean => data !== 0,
+  (data: boolean): number => (data ? 1 : 0)
 );

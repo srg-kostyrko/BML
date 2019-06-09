@@ -60,7 +60,7 @@ class Repeat<T> extends Tag<T[]> {
 
 class RepeatUntil<T> extends Repeat<T> {
   public constructor(subTag: TagOrWrapper<T>, predicate: Predicate<T>) {
-    super(subTag, (...args) => !predicate(...args));
+    super(subTag, (...args): boolean => !predicate(...args));
   }
 }
 class RepeatWhile<T> extends Repeat<T> {}

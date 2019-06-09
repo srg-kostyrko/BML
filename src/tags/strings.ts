@@ -34,7 +34,7 @@ class StringEncoder extends Adapter<number[], string> {
 
   public encode(data: string, context: Context): number[] {
     this.getEncoding(context); // TODO add different encoding support
-    return data.split('').map(char => char.charCodeAt(0));
+    return data.split('').map((char: string): number => char.charCodeAt(0));
   }
 }
 

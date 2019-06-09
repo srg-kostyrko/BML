@@ -17,6 +17,6 @@ export const bit = createTag(Bit);
 
 export const bitFlag = createAdapter(
   bit,
-  (data: number) => data !== 0,
-  (data: boolean) => (data ? 1 : 0)
+  (data: number): boolean => data !== 0,
+  (data: boolean): number => (data ? 1 : 0)
 );

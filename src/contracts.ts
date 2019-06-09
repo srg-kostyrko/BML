@@ -20,8 +20,8 @@ export interface Context {
   get<T>(key: string): T;
   set<T>(key: string, value: T): void;
 
-  fill(data: { [key: string]: unknown }): void;
-  toJSON(): { [key: string]: unknown };
+  fill(data: Record<string, unknown>): void;
+  toJSON(): Record<string, unknown>;
 }
 
 export type ContextGetter<T> = (context: Context) => T;

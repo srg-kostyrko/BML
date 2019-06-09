@@ -4,11 +4,11 @@ import { TagOrWrapper, unwrapTag } from './tags/tag';
 import { StreamInput, Context } from './contracts';
 
 function prepareContext(
-  contextData: object | { toJSON: () => object }
+  contextData: Record<string, unknown> | { toJSON(): Record<string, unknown> }
 ): Context {
   let context = createContext();
   if (contextData) {
-    if ('toJSON' in contextData) {
+    if (typeof contextData.toJSON === 'function') {
       context.fill(contextData.toJSON());
     } else {
       context.fill(contextData);
@@ -20,7 +20,7 @@ function prepareContext(
 export function parse<T>(
   rootTag: TagOrWrapper<T>,
   data: StreamInput,
-  contextData: object = {}
+  contextData: Record<string, unknown> = {}
 ): T {
   const stream = new BMLStream(data);
   const context = prepareContext(contextData);
@@ -31,7 +31,7 @@ export function parse<T>(
 export function pack<T>(
   rootTag: TagOrWrapper<T>,
   data: T,
-  contextData: object = {}
+  contextData: Record<string, unknown> = {}
 ): ArrayBuffer {
   const stream = new BMLStream();
   const context = prepareContext(contextData);

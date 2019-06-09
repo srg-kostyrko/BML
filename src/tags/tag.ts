@@ -25,14 +25,14 @@ export interface TagWrapperFunction<T> {
   (input?: string | TemplateStringsArray): TagCreator<T>;
 }
 
-export type TagProducer<T> = TagWrapperFunction<T> & TagCreator<T>
+export type TagProducer<T> = TagWrapperFunction<T> & TagCreator<T>;
 
 export function createTag<T, TagArgs extends unknown[]>(
   tagClass: { new (...args: TagArgs): Tag<T> },
   ...args: TagArgs
 ): TagProducer<T> {
   const tagFn: TagProducer<T> = Object.assign(
-    (input?: string | TemplateStringsArray) => {
+    (input?: string | TemplateStringsArray): TagCreator<T> => {
       let name: string;
       if (typeof input === 'string') {
         name = input; // calling tag with name as usual function
@@ -41,13 +41,13 @@ export function createTag<T, TagArgs extends unknown[]>(
       }
       return {
         name: tagClass.name.toLowerCase(),
-        create() {
+        create(): Tag<T> {
           return new tagClass(...args).named(name);
         },
       };
     },
     {
-      create() {
+      create(): Tag<T> {
         return new tagClass(...args);
       },
     }

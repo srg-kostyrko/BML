@@ -17,7 +17,9 @@ class Struct<T extends StructOutput> extends Tag<T> {
 
   public parse(stream: Stream, context: Context): T {
     const structContext = createContext(context);
-    const data = ({} as unknown) as T;
+    const data: {
+      [key: string]: unknown;
+    } = {};
     for (const tag of this.subTags) {
       const subData = tag.parse(stream, structContext);
       if (tag.name) {
@@ -25,7 +27,7 @@ class Struct<T extends StructOutput> extends Tag<T> {
         structContext.set(tag.name, subData);
       }
     }
-    return data;
+    return (data as unknown) as T;
   }
 
   public pack(stream: Stream, data: T, context: Context): void {

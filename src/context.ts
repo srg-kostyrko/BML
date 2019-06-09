@@ -60,16 +60,16 @@ class ContextImpl implements IContext {
     }
   }
 
-  public fill(data: { [key: string]: unknown }): void {
+  public fill(data: Record<string, unknown>): void {
     for (const [key, value] of Object.entries(data)) {
       this.data.set(key, value);
     }
   }
 
-  public toJSON(): { [key: string]: unknown } {
+  public toJSON(): Record<string, unknown> {
     const parent = this.parent ? this.parent.toJSON() : {};
-    const json: { [key: string]: unknown } = {};
-    this.data.forEach((value, key) => {
+    const json: Record<string, unknown> = {};
+    this.data.forEach((value, key): void => {
       if (key === LOGGER_KEY) return;
       json[key] = value;
     });
@@ -91,7 +91,7 @@ export function createContextGetter<T>(
   if (typeof input === 'function') {
     return input as ContextGetter<T>;
   }
-  return () => input;
+  return (): T => input;
 }
 
 function fromContext<T>(property: string, context: IContext): T {
@@ -123,8 +123,8 @@ const comparatorFns = {
 function createComparator<T>(
   type: Comparator
 ): (left: T, right: T) => (context: IContext) => boolean {
-  return function compare(left: T, right: T) {
-    return function compareFn(context: IContext) {
+  return function compare(left: T, right: T): (context: IContext) => boolean {
+    return function compareFn(context: IContext): boolean {
       const leftFn = createContextGetter<T>(left);
       const rightFn = createContextGetter<T>(right);
       return comparatorFns[type](leftFn(context), rightFn(context));
