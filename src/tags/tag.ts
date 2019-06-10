@@ -27,6 +27,8 @@ export interface TagWrapperFunction<T> {
 
 export type TagProducer<T> = TagWrapperFunction<T> & TagCreator<T>;
 
+export type ExtractTagType<P> = P extends TagProducer<infer T> ? T : never;
+
 export function createTag<T, TagArgs extends unknown[]>(
   tagClass: { new (...args: TagArgs): Tag<T> },
   ...args: TagArgs

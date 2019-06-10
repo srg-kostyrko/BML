@@ -1,22 +1,31 @@
 import { Context, Stream, ContextGetterArg, ContextGetter } from '../contracts';
 import { createContextGetter } from '../context';
 
-import { Tag, createTag, unwrapTag, TagOrWrapper, TagProducer } from './tag';
+import {
+  Tag,
+  createTag,
+  unwrapTag,
+  TagOrWrapper,
+  TagProducer,
+  ExtractTagType,
+} from './tag';
 import { pass } from './pass';
 
-export interface BranchCases<T> {
-  [key: string]: TagOrWrapper<T | null>;
+export interface BranchCases {
+  [key: string]: TagOrWrapper<unknown | null>;
 }
 
-class Branch<T> extends Tag<T | null> {
+class Branch<T extends BranchCases, D> extends Tag<
+  ExtractTagType<T[keyof T]> | D | null
+> {
   private selector: ContextGetter<string>;
-  private cases: BranchCases<T>;
-  private defaultTag: TagOrWrapper<T | null>;
+  private cases: T;
+  private defaultTag: TagOrWrapper<D | null>;
 
   public constructor(
     selector: ContextGetterArg<string>,
-    cases: BranchCases<T>,
-    defaultTag: TagOrWrapper<T | null>
+    cases: T,
+    defaultTag: TagOrWrapper<D | null>
   ) {
     super();
     this.selector = createContextGetter(selector);
@@ -24,7 +33,10 @@ class Branch<T> extends Tag<T | null> {
     this.defaultTag = defaultTag;
   }
 
-  public parse(stream: Stream, context: Context): T | null {
+  public parse(
+    stream: Stream,
+    context: Context
+  ): ExtractTagType<T[keyof T]> | D | null {
     const caseKey = this.selector(context);
     let useCase = this.cases[caseKey];
     if (!useCase && this.defaultTag) {
@@ -32,12 +44,19 @@ class Branch<T> extends Tag<T | null> {
     }
     if (useCase) {
       useCase = unwrapTag(useCase);
-      return useCase.parse(stream, context);
+      return useCase.parse(stream, context) as
+        | ExtractTagType<T[keyof T]>
+        | D
+        | null;
     }
     return null;
   }
 
-  public pack(stream: Stream, data: T, context: Context): void {
+  public pack(
+    stream: Stream,
+    data: ExtractTagType<T[keyof T]> | D | null,
+    context: Context
+  ): void {
     const caseKey = this.selector(context);
     let useCase = this.cases[caseKey];
     if (!useCase && this.defaultTag) {
@@ -50,13 +69,13 @@ class Branch<T> extends Tag<T | null> {
   }
 }
 
-export function branch<T>(
+export function branch<T extends BranchCases, D = null>(
   selector: ContextGetterArg<string>,
-  cases: BranchCases<T>,
-  defaultTag: TagOrWrapper<T | null> = pass
-): TagProducer<T | null> {
+  cases: T,
+  defaultTag: TagOrWrapper<D | null> = pass
+): TagProducer<ExtractTagType<T[keyof T]> | D | null> {
   return createTag<
-    T | null,
-    [ContextGetterArg<string>, BranchCases<T>, TagOrWrapper<T | null>]
+    ExtractTagType<T[keyof T]> | D | null,
+    [ContextGetterArg<string>, T, TagOrWrapper<D | null>]
   >(Branch, selector, cases, defaultTag);
 }
