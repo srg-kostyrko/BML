@@ -11,4 +11,5 @@ module.exports = {
   testPathIgnorePatterns: ['/node_modules/', '/__tests__/helpers/'],
   coverageDirectory: './coverage/',
   collectCoverage: true,
+  testEnvironment: './__tests__/helpers/testEnv.js',
 };
