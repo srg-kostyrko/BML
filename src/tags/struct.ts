@@ -3,11 +3,7 @@ import { createContext } from '../context';
 
 import { Tag, createTag, unwrapTag, TagOrWrapper, TagProducer } from './tag';
 
-export interface StructOutput {
-  [key: string]: unknown;
-}
-
-class Struct<T extends StructOutput> extends Tag<T> {
+class Struct<T> extends Tag<T> {
   private subTags: Tag<unknown>[];
 
   public constructor(...subTags: TagOrWrapper<unknown>[]) {
@@ -34,7 +30,7 @@ class Struct<T extends StructOutput> extends Tag<T> {
     const structContext = createContext(context);
     for (const tag of this.subTags) {
       if (tag.name) {
-        const subData = data[tag.name];
+        const subData = (data as Record<string, unknown>)[tag.name];
         structContext.set(tag.name, subData);
         tag.pack(stream, subData, structContext);
       } else {
@@ -44,8 +40,6 @@ class Struct<T extends StructOutput> extends Tag<T> {
   }
 }
 
-export function struct<T extends StructOutput>(
-  ...subTags: TagOrWrapper<unknown>[]
-): TagProducer<T> {
+export function struct<T>(...subTags: TagOrWrapper<unknown>[]): TagProducer<T> {
   return createTag<T, TagOrWrapper<unknown>[]>(Struct, ...subTags);
 }
