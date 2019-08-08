@@ -14,6 +14,9 @@ export enum Endian {
 }
 export enum Encoding {
   ascii,
+  utf8,
+  utf16be,
+  utf16le,
 }
 
 export interface Context {
