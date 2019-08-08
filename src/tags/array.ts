@@ -42,6 +42,38 @@ class ArrayTag<T> extends Tag<T[]> {
   }
 }
 
+class SizedArrayTag<T> extends Tag<T[]> {
+  private tag: Tag<T>;
+  private size: Tag<number>;
+
+  public constructor(tag: TagOrWrapper<T>, size: TagOrWrapper<number>) {
+    super();
+    this.tag = unwrapTag(tag);
+    this.size = unwrapTag(size);
+  }
+
+  public parse(stream: Stream, context: Context): T[] {
+    const size = this.size.parse(stream, context);
+    const listContext = createContext(context);
+    const data = [];
+    for (const index of range(size)) {
+      listContext.set('index', index);
+      const subData = this.tag.parse(stream, listContext);
+      data.push(subData);
+    }
+    return data;
+  }
+
+  public pack(stream: Stream, data: T[], context: Context): void {
+    this.size.pack(stream, data.length, context);
+    const listContext = createContext(context);
+    for (const [index, subData] of data.entries()) {
+      listContext.set('index', index);
+      this.tag.pack(stream, subData, listContext);
+    }
+  }
+}
+
 class GreedyArray<T> extends Tag<T[]> {
   private tag: Tag<T>;
 
@@ -84,6 +116,16 @@ export function array<T>(
 ): TagProducer<T[]> {
   return createTag<T[], [TagOrWrapper<T>, ContextGetterArg<number>]>(
     ArrayTag,
+    subTag,
+    size
+  );
+}
+export function sizedArray<T>(
+  subTag: TagOrWrapper<T>,
+  size: TagOrWrapper<number>
+): TagProducer<T[]> {
+  return createTag<T[], [TagOrWrapper<T>, TagOrWrapper<number>]>(
+    SizedArrayTag,
     subTag,
     size
   );
