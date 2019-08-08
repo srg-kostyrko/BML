@@ -22,3 +22,4 @@ export * from './flag';
 export * from './peek';
 export * from './bit';
 export * from './varint';
+export * from './lazy';
