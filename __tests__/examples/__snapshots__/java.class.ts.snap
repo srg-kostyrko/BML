@@ -1,0 +1,996 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`java class files:  should parse: Person interface 1`] = `
+Object {
+  "access_flags": Object {
+    "ACC_ABSTRACT": true,
+    "ACC_ANNOTATION": false,
+    "ACC_ENUM": false,
+    "ACC_FINAL": false,
+    "ACC_INTERFACE": true,
+    "ACC_MODULE": false,
+    "ACC_PUBLIC": false,
+    "ACC_SUPER": false,
+    "ACC_SYNTHETIC": false,
+  },
+  "attributes": Array [
+    Object {
+      "attribute_length": 2,
+      "attribute_name_index": 5,
+      "info": Object {
+        "sourcefile_index": 6,
+      },
+      "name": "SourceFile",
+    },
+  ],
+  "constantpool": Array [
+    Object {
+      "info": Object {
+        "name_index": 7,
+      },
+      "tag": "constantClass",
+    },
+    Object {
+      "info": Object {
+        "name_index": 8,
+      },
+      "tag": "constantClass",
+    },
+    Object {
+      "info": Object {
+        "string": "identify",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "(Ljava/lang/String;)Ljava/lang/String;",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "SourceFile",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "Test.java",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "Person",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "java/lang/Object",
+      },
+      "tag": "constantUtf8",
+    },
+  ],
+  "constantpool_count": 9,
+  "fields": Array [],
+  "interfaces": Array [],
+  "magic": 3405691582,
+  "major_version": 52,
+  "methods": Array [
+    Object {
+      "access_flags": Object {
+        "ACC_ABSTRACT": true,
+        "ACC_BRIDGE": false,
+        "ACC_FINAL": false,
+        "ACC_NATIVE": false,
+        "ACC_PRIVATE": false,
+        "ACC_PROTECTED": false,
+        "ACC_PUBLIC": true,
+        "ACC_STATIC": false,
+        "ACC_STRICT": false,
+        "ACC_SYNCHRONIZED": false,
+        "ACC_SYNTHETIC": false,
+        "ACC_VARARGS": false,
+      },
+      "attributes": Array [],
+      "descriptor_index": 4,
+      "name_index": 3,
+    },
+  ],
+  "minor_version": 0,
+  "super_class": 2,
+  "this_class": 1,
+}
+`;
+
+exports[`java class files:  should parse: Student class 1`] = `
+Object {
+  "access_flags": Object {
+    "ACC_ABSTRACT": false,
+    "ACC_ANNOTATION": false,
+    "ACC_ENUM": false,
+    "ACC_FINAL": false,
+    "ACC_INTERFACE": false,
+    "ACC_MODULE": false,
+    "ACC_PUBLIC": false,
+    "ACC_SUPER": true,
+    "ACC_SYNTHETIC": false,
+  },
+  "attributes": Array [
+    Object {
+      "attribute_length": 2,
+      "attribute_name_index": 14,
+      "info": Object {
+        "sourcefile_index": 15,
+      },
+      "name": "SourceFile",
+    },
+    Object {
+      "attribute_length": 10,
+      "attribute_name_index": 7,
+      "info": Object {
+        "classes": Array [
+          Object {
+            "inner_class_access_flags": Object {
+              "ACC_ABSTRACT": false,
+              "ACC_ANNOTATION": false,
+              "ACC_ENUM": false,
+              "ACC_FINAL": false,
+              "ACC_INTERFACE": false,
+              "ACC_PRIVATE": false,
+              "ACC_PROTECTED": false,
+              "ACC_PUBLIC": false,
+              "ACC_STATIC": false,
+              "ACC_SYNTHETIC": false,
+            },
+            "inner_class_info_index": 5,
+            "inner_name_index": 6,
+            "outer_class_info_index": 2,
+          },
+        ],
+      },
+      "name": "InnerClasses",
+    },
+  ],
+  "constantpool": Array [
+    Object {
+      "info": Object {
+        "class_index": 3,
+        "name_and_type_index": 16,
+      },
+      "tag": "constantMethodref",
+    },
+    Object {
+      "info": Object {
+        "name_index": 17,
+      },
+      "tag": "constantClass",
+    },
+    Object {
+      "info": Object {
+        "name_index": 18,
+      },
+      "tag": "constantClass",
+    },
+    Object {
+      "info": Object {
+        "name_index": 19,
+      },
+      "tag": "constantClass",
+    },
+    Object {
+      "info": Object {
+        "name_index": 20,
+      },
+      "tag": "constantClass",
+    },
+    Object {
+      "info": Object {
+        "string": "SubClass",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "InnerClasses",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "<init>",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "()V",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "Code",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "LineNumberTable",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "identify",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "(Ljava/lang/String;)Ljava/lang/String;",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "SourceFile",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "Test.java",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "descriptor_index": 9,
+        "name_index": 8,
+      },
+      "tag": "constantNameAndType",
+    },
+    Object {
+      "info": Object {
+        "string": "Student",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "java/lang/Object",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "Person",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "Student$SubClass",
+      },
+      "tag": "constantUtf8",
+    },
+  ],
+  "constantpool_count": 21,
+  "fields": Array [],
+  "interfaces": Array [
+    4,
+  ],
+  "magic": 3405691582,
+  "major_version": 52,
+  "methods": Array [
+    Object {
+      "access_flags": Object {
+        "ACC_ABSTRACT": false,
+        "ACC_BRIDGE": false,
+        "ACC_FINAL": false,
+        "ACC_NATIVE": false,
+        "ACC_PRIVATE": true,
+        "ACC_PROTECTED": false,
+        "ACC_PUBLIC": false,
+        "ACC_STATIC": false,
+        "ACC_STRICT": false,
+        "ACC_SYNCHRONIZED": false,
+        "ACC_SYNTHETIC": false,
+        "ACC_VARARGS": false,
+      },
+      "attributes": Array [
+        Object {
+          "attribute_length": 33,
+          "attribute_name_index": 10,
+          "info": Object {
+            "attributes": Array [
+              Object {
+                "attribute_length": 10,
+                "attribute_name_index": 11,
+                "info": Object {
+                  "count": 2,
+                  "line_number_table": Array [
+                    Object {
+                      "line_number": 9,
+                      "start_pc": 0,
+                    },
+                    Object {
+                      "line_number": 10,
+                      "start_pc": 4,
+                    },
+                  ],
+                },
+                "name": "LineNumberTable",
+              },
+            ],
+            "code": Array [
+              42,
+              183,
+              0,
+              1,
+              177,
+            ],
+            "exception_table": Array [],
+            "max_locals": 1,
+            "max_stack": 1,
+          },
+          "name": "Code",
+        },
+      ],
+      "descriptor_index": 9,
+      "name_index": 8,
+    },
+    Object {
+      "access_flags": Object {
+        "ACC_ABSTRACT": false,
+        "ACC_BRIDGE": false,
+        "ACC_FINAL": false,
+        "ACC_NATIVE": false,
+        "ACC_PRIVATE": false,
+        "ACC_PROTECTED": false,
+        "ACC_PUBLIC": true,
+        "ACC_STATIC": false,
+        "ACC_STRICT": false,
+        "ACC_SYNCHRONIZED": false,
+        "ACC_SYNTHETIC": false,
+        "ACC_VARARGS": false,
+      },
+      "attributes": Array [
+        Object {
+          "attribute_length": 26,
+          "attribute_name_index": 10,
+          "info": Object {
+            "attributes": Array [
+              Object {
+                "attribute_length": 6,
+                "attribute_name_index": 11,
+                "info": Object {
+                  "count": 1,
+                  "line_number_table": Array [
+                    Object {
+                      "line_number": 13,
+                      "start_pc": 0,
+                    },
+                  ],
+                },
+                "name": "LineNumberTable",
+              },
+            ],
+            "code": Array [
+              43,
+              176,
+            ],
+            "exception_table": Array [],
+            "max_locals": 2,
+            "max_stack": 1,
+          },
+          "name": "Code",
+        },
+      ],
+      "descriptor_index": 13,
+      "name_index": 12,
+    },
+  ],
+  "minor_version": 0,
+  "super_class": 3,
+  "this_class": 2,
+}
+`;
+
+exports[`java class files:  should parse: Student sub class 1`] = `
+Object {
+  "access_flags": Object {
+    "ACC_ABSTRACT": false,
+    "ACC_ANNOTATION": false,
+    "ACC_ENUM": false,
+    "ACC_FINAL": false,
+    "ACC_INTERFACE": false,
+    "ACC_MODULE": false,
+    "ACC_PUBLIC": false,
+    "ACC_SUPER": true,
+    "ACC_SYNTHETIC": false,
+  },
+  "attributes": Array [
+    Object {
+      "attribute_length": 2,
+      "attribute_name_index": 11,
+      "info": Object {
+        "sourcefile_index": 12,
+      },
+      "name": "SourceFile",
+    },
+    Object {
+      "attribute_length": 10,
+      "attribute_name_index": 18,
+      "info": Object {
+        "classes": Array [
+          Object {
+            "inner_class_access_flags": Object {
+              "ACC_ABSTRACT": false,
+              "ACC_ANNOTATION": false,
+              "ACC_ENUM": false,
+              "ACC_FINAL": false,
+              "ACC_INTERFACE": false,
+              "ACC_PRIVATE": false,
+              "ACC_PROTECTED": false,
+              "ACC_PUBLIC": false,
+              "ACC_STATIC": false,
+              "ACC_SYNTHETIC": false,
+            },
+            "inner_class_info_index": 3,
+            "inner_name_index": 17,
+            "outer_class_info_index": 15,
+          },
+        ],
+      },
+      "name": "InnerClasses",
+    },
+  ],
+  "constantpool": Array [
+    Object {
+      "info": Object {
+        "class_index": 3,
+        "name_and_type_index": 13,
+      },
+      "tag": "constantFieldref",
+    },
+    Object {
+      "info": Object {
+        "class_index": 4,
+        "name_and_type_index": 14,
+      },
+      "tag": "constantMethodref",
+    },
+    Object {
+      "info": Object {
+        "name_index": 16,
+      },
+      "tag": "constantClass",
+    },
+    Object {
+      "info": Object {
+        "name_index": 19,
+      },
+      "tag": "constantClass",
+    },
+    Object {
+      "info": Object {
+        "string": "this$0",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "LStudent;",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "<init>",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "(LStudent;)V",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "Code",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "LineNumberTable",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "SourceFile",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "Test.java",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "descriptor_index": 6,
+        "name_index": 5,
+      },
+      "tag": "constantNameAndType",
+    },
+    Object {
+      "info": Object {
+        "descriptor_index": 20,
+        "name_index": 7,
+      },
+      "tag": "constantNameAndType",
+    },
+    Object {
+      "info": Object {
+        "name_index": 21,
+      },
+      "tag": "constantClass",
+    },
+    Object {
+      "info": Object {
+        "string": "Student$SubClass",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "SubClass",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "InnerClasses",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "java/lang/Object",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "()V",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "Student",
+      },
+      "tag": "constantUtf8",
+    },
+  ],
+  "constantpool_count": 22,
+  "fields": Array [
+    Object {
+      "access_flags": Object {
+        "ACC_ENUM": false,
+        "ACC_FINAL": true,
+        "ACC_PRIVATE": false,
+        "ACC_PROTECTED": false,
+        "ACC_PUBLIC": false,
+        "ACC_STATIC": false,
+        "ACC_SYNTHETIC": true,
+        "ACC_TRANSIENT": false,
+        "ACC_VOLATILE": false,
+      },
+      "attributes": Array [],
+      "descriptor_index": 6,
+      "name_index": 5,
+    },
+  ],
+  "interfaces": Array [],
+  "magic": 3405691582,
+  "major_version": 52,
+  "methods": Array [
+    Object {
+      "access_flags": Object {
+        "ACC_ABSTRACT": false,
+        "ACC_BRIDGE": false,
+        "ACC_FINAL": false,
+        "ACC_NATIVE": false,
+        "ACC_PRIVATE": false,
+        "ACC_PROTECTED": false,
+        "ACC_PUBLIC": false,
+        "ACC_STATIC": false,
+        "ACC_STRICT": false,
+        "ACC_SYNCHRONIZED": false,
+        "ACC_SYNTHETIC": false,
+        "ACC_VARARGS": false,
+      },
+      "attributes": Array [
+        Object {
+          "attribute_length": 34,
+          "attribute_name_index": 9,
+          "info": Object {
+            "attributes": Array [
+              Object {
+                "attribute_length": 6,
+                "attribute_name_index": 10,
+                "info": Object {
+                  "count": 1,
+                  "line_number_table": Array [
+                    Object {
+                      "line_number": 6,
+                      "start_pc": 0,
+                    },
+                  ],
+                },
+                "name": "LineNumberTable",
+              },
+            ],
+            "code": Array [
+              42,
+              43,
+              181,
+              0,
+              1,
+              42,
+              183,
+              0,
+              2,
+              177,
+            ],
+            "exception_table": Array [],
+            "max_locals": 2,
+            "max_stack": 2,
+          },
+          "name": "Code",
+        },
+      ],
+      "descriptor_index": 8,
+      "name_index": 7,
+    },
+  ],
+  "minor_version": 0,
+  "super_class": 4,
+  "this_class": 3,
+}
+`;
+
+exports[`java class files:  should parse: Test class 1`] = `
+Object {
+  "access_flags": Object {
+    "ACC_ABSTRACT": false,
+    "ACC_ANNOTATION": false,
+    "ACC_ENUM": false,
+    "ACC_FINAL": false,
+    "ACC_INTERFACE": false,
+    "ACC_MODULE": false,
+    "ACC_PUBLIC": false,
+    "ACC_SUPER": true,
+    "ACC_SYNTHETIC": false,
+  },
+  "attributes": Array [
+    Object {
+      "attribute_length": 2,
+      "attribute_name_index": 13,
+      "info": Object {
+        "sourcefile_index": 14,
+      },
+      "name": "SourceFile",
+    },
+  ],
+  "constantpool": Array [
+    Object {
+      "info": Object {
+        "class_index": 6,
+        "name_and_type_index": 15,
+      },
+      "tag": "constantMethodref",
+    },
+    Object {
+      "info": Object {
+        "class_index": 16,
+        "name_and_type_index": 17,
+      },
+      "tag": "constantFieldref",
+    },
+    Object {
+      "info": Object {
+        "string_index": 18,
+      },
+      "tag": "constantString",
+    },
+    Object {
+      "info": Object {
+        "class_index": 19,
+        "name_and_type_index": 20,
+      },
+      "tag": "constantMethodref",
+    },
+    Object {
+      "info": Object {
+        "name_index": 21,
+      },
+      "tag": "constantClass",
+    },
+    Object {
+      "info": Object {
+        "name_index": 22,
+      },
+      "tag": "constantClass",
+    },
+    Object {
+      "info": Object {
+        "string": "<init>",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "()V",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "Code",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "LineNumberTable",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "main",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "([Ljava/lang/String;)V",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "SourceFile",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "Test.java",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "descriptor_index": 8,
+        "name_index": 7,
+      },
+      "tag": "constantNameAndType",
+    },
+    Object {
+      "info": Object {
+        "name_index": 23,
+      },
+      "tag": "constantClass",
+    },
+    Object {
+      "info": Object {
+        "descriptor_index": 25,
+        "name_index": 24,
+      },
+      "tag": "constantNameAndType",
+    },
+    Object {
+      "info": Object {
+        "string": "Class File Structure",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "name_index": 26,
+      },
+      "tag": "constantClass",
+    },
+    Object {
+      "info": Object {
+        "descriptor_index": 28,
+        "name_index": 27,
+      },
+      "tag": "constantNameAndType",
+    },
+    Object {
+      "info": Object {
+        "string": "Test",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "java/lang/Object",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "java/lang/System",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "out",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "Ljava/io/PrintStream;",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "java/io/PrintStream",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "println",
+      },
+      "tag": "constantUtf8",
+    },
+    Object {
+      "info": Object {
+        "string": "(Ljava/lang/String;)V",
+      },
+      "tag": "constantUtf8",
+    },
+  ],
+  "constantpool_count": 29,
+  "fields": Array [],
+  "interfaces": Array [],
+  "magic": 3405691582,
+  "major_version": 52,
+  "methods": Array [
+    Object {
+      "access_flags": Object {
+        "ACC_ABSTRACT": false,
+        "ACC_BRIDGE": false,
+        "ACC_FINAL": false,
+        "ACC_NATIVE": false,
+        "ACC_PRIVATE": false,
+        "ACC_PROTECTED": false,
+        "ACC_PUBLIC": false,
+        "ACC_STATIC": false,
+        "ACC_STRICT": false,
+        "ACC_SYNCHRONIZED": false,
+        "ACC_SYNTHETIC": false,
+        "ACC_VARARGS": false,
+      },
+      "attributes": Array [
+        Object {
+          "attribute_length": 29,
+          "attribute_name_index": 9,
+          "info": Object {
+            "attributes": Array [
+              Object {
+                "attribute_length": 6,
+                "attribute_name_index": 10,
+                "info": Object {
+                  "count": 1,
+                  "line_number_table": Array [
+                    Object {
+                      "line_number": 18,
+                      "start_pc": 0,
+                    },
+                  ],
+                },
+                "name": "LineNumberTable",
+              },
+            ],
+            "code": Array [
+              42,
+              183,
+              0,
+              1,
+              177,
+            ],
+            "exception_table": Array [],
+            "max_locals": 1,
+            "max_stack": 1,
+          },
+          "name": "Code",
+        },
+      ],
+      "descriptor_index": 8,
+      "name_index": 7,
+    },
+    Object {
+      "access_flags": Object {
+        "ACC_ABSTRACT": false,
+        "ACC_BRIDGE": false,
+        "ACC_FINAL": false,
+        "ACC_NATIVE": false,
+        "ACC_PRIVATE": false,
+        "ACC_PROTECTED": false,
+        "ACC_PUBLIC": true,
+        "ACC_STATIC": true,
+        "ACC_STRICT": false,
+        "ACC_SYNCHRONIZED": false,
+        "ACC_SYNTHETIC": false,
+        "ACC_VARARGS": false,
+      },
+      "attributes": Array [
+        Object {
+          "attribute_length": 37,
+          "attribute_name_index": 9,
+          "info": Object {
+            "attributes": Array [
+              Object {
+                "attribute_length": 10,
+                "attribute_name_index": 10,
+                "info": Object {
+                  "count": 2,
+                  "line_number_table": Array [
+                    Object {
+                      "line_number": 20,
+                      "start_pc": 0,
+                    },
+                    Object {
+                      "line_number": 21,
+                      "start_pc": 8,
+                    },
+                  ],
+                },
+                "name": "LineNumberTable",
+              },
+            ],
+            "code": Array [
+              178,
+              0,
+              2,
+              18,
+              3,
+              182,
+              0,
+              4,
+              177,
+            ],
+            "exception_table": Array [],
+            "max_locals": 1,
+            "max_stack": 2,
+          },
+          "name": "Code",
+        },
+      ],
+      "descriptor_index": 12,
+      "name_index": 11,
+    },
+  ],
+  "minor_version": 0,
+  "super_class": 6,
+  "this_class": 5,
+}
+`;

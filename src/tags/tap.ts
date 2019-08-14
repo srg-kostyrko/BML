@@ -1,15 +1,15 @@
-import { ctxLogger, ContextFunction } from '../context';
-import { Context, Stream } from '../contracts';
+import { ctxLogger, ContextFunction, createContextGetter } from '../context';
+import { Context, Stream, ContextGetter, ContextGetterArg } from '../contracts';
 
 import { createTag, Tag, TagProducer } from './tag';
 
 class Tap extends Tag<null> {
-  private into: ContextFunction<unknown> | undefined;
+  private into: ContextGetter<unknown> | undefined;
 
-  public constructor(into?: ContextFunction<unknown>) {
+  public constructor(into?: ContextGetterArg<unknown>) {
     super();
     if (into) {
-      this.into = into;
+      this.into = createContextGetter(into);
     }
   }
 
@@ -17,7 +17,8 @@ class Tap extends Tag<null> {
     const logger = ctxLogger(context);
     if (this.into) {
       logger.debug(
-        `${this.into.property || this.into.name}: `,
+        `${(this.into as ContextFunction<unknown>).property ||
+          this.into.name}: `,
         this.into(context)
       );
     } else {
@@ -35,6 +36,6 @@ class Tap extends Tag<null> {
   }
 }
 
-export function tap(into?: ContextFunction<unknown>): TagProducer<null> {
+export function tap(into?: ContextGetterArg<unknown>): TagProducer<null> {
   return createTag(Tap, into);
 }

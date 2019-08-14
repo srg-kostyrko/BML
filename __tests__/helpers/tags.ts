@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import { parse, pack, TagOrWrapper } from '../../src';
 
 export function testTag<T>(
@@ -16,4 +17,14 @@ export function testTag<T>(
       expect(new Uint8Array(packed)).toEqual(binaryData);
     });
   });
+}
+
+export function testFile<T>(
+  filePath: string,
+  tag: TagOrWrapper<T>,
+  description: string
+): void {
+  const content = fs.readFileSync(filePath);
+  const parseResult = parse(tag, content);
+  expect(parseResult).toMatchSnapshot(description);
 }
