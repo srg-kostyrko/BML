@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.9.0](https://github.com/srg-kostyrko/BML/compare/v0.8.6...v0.9.0) (2019-12-26)
+
+
+### Features
+
+* **array:** Add sizedArray tag ([b0d8290](https://github.com/srg-kostyrko/BML/commit/b0d8290e27264f48c7f145d2f5817c2b9a856263))
+* **lazy:** Add lazyBound tag for recursive structures ([bf45305](https://github.com/srg-kostyrko/BML/commit/bf45305e50ac95bca8e4b198918ab6f467738a52))
+* **strings:** Add support for utf8 and utf16 encodings ([6658dc5](https://github.com/srg-kostyrko/BML/commit/6658dc527a5e2b553ea0326822c77be6978e04c9))
+
 ### [0.8.6](https://github.com/srg-kostyrko/BML/compare/v0.8.5...v0.8.6) (2019-07-14)
 
 
