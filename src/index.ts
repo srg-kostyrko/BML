@@ -6,7 +6,7 @@ import { StreamInput, Context } from './contracts';
 function prepareContext(
   contextData: Record<string, unknown> | { toJSON(): Record<string, unknown> }
 ): Context {
-  let context = createContext();
+  const context = createContext();
   if (contextData) {
     if (typeof contextData.toJSON === 'function') {
       context.fill(contextData.toJSON());

@@ -5,9 +5,9 @@ import { TypeError } from './errors';
 const BIT_CURSOR_RESET_MARKER = 256;
 
 export class BMLStream implements Stream {
-  private cursor: number = 0;
+  private cursor = 0;
   private bitBuffer: number | null = null;
-  private bitCursor: number = 1;
+  private bitCursor = 1;
   private content: ArrayBuffer;
   private view: DataView;
 

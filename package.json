@@ -33,7 +33,7 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "prepare": "yarn build",
-    "lint": "eslint src/**/*.ts __tests__/**/*.ts",
+    "lint": "eslint ./src/*.ts ./src/**/*.ts ./__tests__/*.ts ./__tests__/**/*.ts",
     "release": "standard-version",
     "release:beta": "standard-version -p beta"
   },
