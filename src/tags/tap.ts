@@ -17,8 +17,9 @@ class Tap extends Tag<null> {
     const logger = ctxLogger(context);
     if (this.into) {
       logger.debug(
-        `${(this.into as ContextFunction<unknown>).property ||
-          this.into.name}: `,
+        `${
+          (this.into as ContextFunction<unknown>).property || this.into.name
+        }: `,
         this.into(context)
       );
     } else {

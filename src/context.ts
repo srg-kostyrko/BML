@@ -153,12 +153,12 @@ export interface ContextFunction<T> {
 export function ctx<T>([property]: TemplateStringsArray): ContextFunction<T> {
   const fn = fromContext.bind(null, property) as ContextFunction<T>;
   fn.property = property;
-  fn.eq = (eq.bind(null, fn) as unknown) as ComparatorSide<T>;
-  fn.neq = (neq.bind(null, fn) as unknown) as ComparatorSide<T>;
-  fn.lt = (lt.bind(null, fn) as unknown) as ComparatorSide<T>;
-  fn.lte = (lte.bind(null, fn) as unknown) as ComparatorSide<T>;
-  fn.gt = (gt.bind(null, fn) as unknown) as ComparatorSide<T>;
-  fn.gte = (gte.bind(null, fn) as unknown) as ComparatorSide<T>;
+  fn.eq = eq.bind(null, fn) as unknown as ComparatorSide<T>;
+  fn.neq = neq.bind(null, fn) as unknown as ComparatorSide<T>;
+  fn.lt = lt.bind(null, fn) as unknown as ComparatorSide<T>;
+  fn.lte = lte.bind(null, fn) as unknown as ComparatorSide<T>;
+  fn.gt = gt.bind(null, fn) as unknown as ComparatorSide<T>;
+  fn.gte = gte.bind(null, fn) as unknown as ComparatorSide<T>;
   return fn;
 }
 

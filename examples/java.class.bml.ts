@@ -23,6 +23,7 @@ import {
 const u1 = byte;
 const u2 = uint16;
 const u4 = uint32;
+// eslint-disable-next-line prefer-const
 let annotation: TagProducer<unknown>; // for lazy initialization
 
 const constantClassInfo = struct(u2`name_index`);
@@ -103,7 +104,7 @@ const verificationTypeInfo = struct(
 
 const stackMapFrame = struct(
   u1`frame_type`,
-  computed(ctx => {
+  computed((ctx) => {
     const index = ctx.get<number>('frame_type');
     if (index < 64) return 'SAME';
     if (index < 128) return 'SAME_LOCALS_1_STACK_ITEM';
@@ -126,7 +127,7 @@ const stackMapFrame = struct(
       u2`offset_delta`,
       array(
         verificationTypeInfo,
-        ctx => ctx.get<number>('frame_type') - 251
+        (ctx) => ctx.get<number>('frame_type') - 251
       )`locals`
     ),
     FULL: struct(
@@ -138,7 +139,7 @@ const stackMapFrame = struct(
 
 const elementValue: TagProducer<unknown> = struct(
   u1`tag`,
-  branch(ctx => String.fromCharCode(ctx.get<number>('tag')), {
+  branch((ctx) => String.fromCharCode(ctx.get<number>('tag')), {
     B: u2,
     C: u2,
     D: u2,
@@ -151,7 +152,10 @@ const elementValue: TagProducer<unknown> = struct(
     e: struct(u2`type_name_index`, u2`const_name_index`),
     c: u2,
     '@': lazyBound(() => annotation),
-    '[': sizedArray(lazyBound(() => elementValue), u2),
+    '[': sizedArray(
+      lazyBound(() => elementValue),
+      u2
+    ),
   })`value`
 );
 
@@ -217,7 +221,7 @@ const typeAnnotation = struct(
 
 const attributeInfo: TagProducer<unknown> = struct(
   u2`attribute_name_index`,
-  computed(ctx => {
+  computed((ctx) => {
     const index = ctx.get<number>('attribute_name_index');
     const pool = ctx.get<{ info: { string: string } }[]>('constantpool');
     const name = pool[index - 1].info.string; // constant pool is indexed starting with 1
@@ -236,7 +240,10 @@ const attributeInfo: TagProducer<unknown> = struct(
           struct(u2`start_pc`, u2`end_pc`, u2`handler_pc`, u2`catch_type`),
           u2
         )`exception_table`,
-        sizedArray(lazyBound(() => attributeInfo), u2)`attributes`
+        sizedArray(
+          lazyBound(() => attributeInfo),
+          u2
+        )`attributes`
       ),
       StackMapTable: struct(sizedArray(stackMapFrame, u2)`entries`),
       Exceptions: struct(sizedArray(u2, u2)`exception_index_table`),
@@ -442,7 +449,7 @@ export const classFile = struct(
   u2`constantpool_count`,
   array(
     constantPoolInfo,
-    ctx => ctx.get<number>('constantpool_count') - 1
+    (ctx) => ctx.get<number>('constantpool_count') - 1
   )`constantpool`,
   bitMask(u2, {
     ACC_PUBLIC: 0x0001,

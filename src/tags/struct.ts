@@ -23,7 +23,7 @@ class Struct<T> extends Tag<T> {
         structContext.set(tag.name, subData);
       }
     }
-    return (data as unknown) as T;
+    return data as unknown as T;
   }
 
   public pack(stream: Stream, data: T, context: Context): void {

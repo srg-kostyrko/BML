@@ -67,6 +67,7 @@ const extraCodes = enums(u2, {
   infozipUnixVarSize: 0x7875,
 });
 
+// eslint-disable-next-line prefer-const
 let pkSection: TagProducer<unknown>;
 
 const extendedTimestamp = struct(
@@ -118,7 +119,10 @@ const centralDirEntry = struct(
   string(ctx`file_name_len`)`file_name`,
   array(extraField, ctx`extra_len`)`extras`,
   string(ctx`comment_len`)`comment`,
-  pointer(ctx`local_header_offset`, lazyBound(() => pkSection))`local_header`
+  pointer(
+    ctx`local_header_offset`,
+    lazyBound(() => pkSection)
+  )`local_header`
 );
 
 const endOfCentralDir = struct(

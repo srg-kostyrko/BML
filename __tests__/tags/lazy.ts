@@ -8,7 +8,10 @@ describe('lazy', () => {
   }
   const recursiveTag: TagProducer<RecursiveTag> = struct<RecursiveTag>(
     byte`level`,
-    sizedArray(lazyBound(() => recursiveTag), byte)`nested`
+    sizedArray(
+      lazyBound(() => recursiveTag),
+      byte
+    )`nested`
   );
   const recursiveData = {
     level: 0,

@@ -13,13 +13,10 @@ describe('repeat_until', () => {
   });
 
   it('should pack', () => {
-    const packed = pack(repeatUntil(byte, (ctx, el) => el > 52)`4 bytes`, [
-      49,
-      50,
-      51,
-      52,
-      62,
-    ]);
+    const packed = pack(
+      repeatUntil(byte, (ctx, el) => el > 52)`4 bytes`,
+      [49, 50, 51, 52, 62]
+    );
     expect(new Uint8Array(packed)).toEqual(new Uint8Array([49, 50, 51, 52]));
   });
 });
@@ -36,13 +33,10 @@ describe('repeat_while', () => {
   });
 
   it('should pack', () => {
-    const packed = pack(repeatWhile(byte, (ctx, el) => el < 60)`4 bytes`, [
-      49,
-      50,
-      51,
-      52,
-      62,
-    ]);
+    const packed = pack(
+      repeatWhile(byte, (ctx, el) => el < 60)`4 bytes`,
+      [49, 50, 51, 52, 62]
+    );
     expect(new Uint8Array(packed)).toEqual(new Uint8Array([49, 50, 51, 52]));
   });
 });

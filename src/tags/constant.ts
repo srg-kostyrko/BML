@@ -18,7 +18,7 @@ class Constant<T> extends Tag<T> {
       if (!Array.isArray(value)) return false;
       if (value.length !== this.value.length) return false;
       return value.every(
-        (el, index): boolean => el === ((this.value as unknown) as T[])[index]
+        (el, index): boolean => el === (this.value as unknown as T[])[index]
       );
     }
 
