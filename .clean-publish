@@ -1,0 +1,14 @@
+{
+  "files": [
+    ".husky/**",
+    "coverage",
+    "__tests__",
+    "tsconfig.json",
+    "tsconfig-test.json",
+    "src"
+  ],
+  "fields": [
+    "scripts",
+    "config"
+  ]
+}

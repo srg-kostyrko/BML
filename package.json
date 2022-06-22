@@ -43,13 +43,16 @@
     "prepare": "husky install",
     "lint": "eslint ./src/*.ts ./src/**/*.ts ./__tests__/*.ts ./__tests__/**/*.ts",
     "release": "standard-version",
-    "release:beta": "standard-version -p beta"
+    "release:beta": "standard-version -p beta",
+    "prepublish": "npm run build",
+    "publish": "clean-publish"
   },
   "devDependencies": {
     "@types/jest": "^28.1.3",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
+    "clean-publish": "^4.0.1",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.18.0",
