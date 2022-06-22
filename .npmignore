@@ -15,7 +15,6 @@ yarn.lock
 # project files
 __tests__
 .rpt2_cache
-.travis.yml
 .editorconfig
 jest.config.js
 .prettierrc.js

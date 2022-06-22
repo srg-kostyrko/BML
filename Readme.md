@@ -1,6 +1,6 @@
 ![Logo of the project](./bml-logo.png)
 
-[![Build Status](https://travis-ci.org/srg-kostyrko/BML.svg?branch=master)](https://travis-ci.org/srg-kostyrko/BML) [![codecov](https://codecov.io/gh/srg-kostyrko/BML/branch/master/graph/badge.svg)](https://codecov.io/gh/srg-kostyrko/BML) ![NpmLicense](https://img.shields.io/npm/l/binary-markup.svg) ![npm](https://img.shields.io/npm/v/binary-markup.svg) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![codecov](https://codecov.io/gh/srg-kostyrko/BML/branch/main/graph/badge.svg)](https://codecov.io/gh/srg-kostyrko/BML) ![NpmLicense](https://img.shields.io/npm/l/binary-markup.svg) ![npm](https://img.shields.io/npm/v/binary-markup.svg) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 # BML
 
