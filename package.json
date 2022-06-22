@@ -32,7 +32,7 @@
     "commit": "git add . && git-cz",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "prepare": "npm run build",
+    "prepare": "husky install",
     "lint": "eslint ./src/*.ts ./src/**/*.ts ./__tests__/*.ts ./__tests__/**/*.ts",
     "release": "standard-version",
     "release:beta": "standard-version -p beta"
@@ -53,7 +53,7 @@
     "cz-conventional-changelog": "3.0.2",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.8.0",
-    "husky": "^3.1.0",
+    "husky": "^8.0.1",
     "jest": "^24.9.0",
     "jest-environment-node": "^24.9.0",
     "lint-staged": "^9.5.0",
@@ -69,12 +69,6 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm test"
     }
   },
   "lint-staged": {
