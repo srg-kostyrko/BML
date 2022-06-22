@@ -15,10 +15,12 @@ export class BMLStream implements Stream {
     if (fromBuffer) {
       let buffer = fromBuffer;
       if (ArrayBuffer.isView(fromBuffer)) {
-        buffer = fromBuffer.buffer.slice(
+        // just slicing buffer may break instanceof check in vm (jest tests for example)
+        buffer = new ArrayBuffer(fromBuffer.byteLength);
+        new Uint8Array(buffer).set(new Uint8Array(fromBuffer.buffer.slice(
           fromBuffer.byteOffset,
           fromBuffer.byteOffset + fromBuffer.byteLength
-        );
+        )));
       }
       if (!(buffer instanceof ArrayBuffer)) {
         throw new TypeError('Source must be an instance of ArrayBuffer');
