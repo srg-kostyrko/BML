@@ -14,8 +14,15 @@
     "name": "Sergii Kostyrko",
     "email": "srg.kostyrko@gmail.com"
   },
-  "main": "dist/binary-markup.umd.js",
-  "module": "dist/binary-markup.es5.js",
+  "type": "module",
+  "source": "src/index.ts",
+  "exports": {
+    "require": "./dist/binary-markup.cjs",
+    "default": "./dist/binary-markup.modern.js"
+  },
+  "main": "./dist/binary-markup.cjs",
+  "module": "./dist/binary-markup.module.js",
+  "unpkg": "./dist/binary-markup.umd.js",
   "typings": "dist/types/index.d.ts",
   "license": "MIT",
   "repository": {
@@ -28,7 +35,8 @@
   "homepage": "https://github.com/srg-kostyrko/BML#readme",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "tsc --module commonjs && rollup -c",
+    "build": "microbundle",
+    "dev": "microbundle watch",
     "commit": "git add . && git-cz",
     "test": "jest",
     "test:watch": "jest --watchAll",
@@ -37,14 +45,7 @@
     "release": "standard-version",
     "release:beta": "standard-version -p beta"
   },
-  "browserslist": [
-    "last 2 versions"
-  ],
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^11.0.0",
-    "@rollup/plugin-json": "^4.0.1",
-    "@rollup/plugin-node-resolve": "^6.0.0",
-    "@rollup/plugin-typescript": "^2.0.1",
     "@types/jest": "^28.1.3",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
@@ -56,10 +57,8 @@
     "husky": "^8.0.1",
     "jest": "^28.1.1",
     "lint-staged": "^13.0.2",
+    "microbundle": "^0.15.0",
     "prettier": "2.7.1",
-    "rollup": "^1.27.14",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-terser": "^5.1.3",
     "standard-version": "^9.5.0",
     "ts-jest": "^28.0.5",
     "ts-node": "^10.8.1",
